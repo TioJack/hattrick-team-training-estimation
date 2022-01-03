@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum SkillType {
+public enum Skill {
     GOALKEEPING(0),
     DEFENDING(1),
     WINGER(2),

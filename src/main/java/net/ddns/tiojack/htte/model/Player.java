@@ -38,8 +38,8 @@ public class Player implements Serializable {
     public static class LineupPlayerBuilder {
     }
 
-    public double getSkill(final SkillType skillType) {
-        return switch (skillType) {
+    public double getSkill(final Skill skill) {
+        return switch (skill) {
             case GOALKEEPING -> this.keeper;
             case DEFENDING -> this.defender;
             case WINGER -> this.winger;

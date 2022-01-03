@@ -8,26 +8,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum RatingConfigSection {
     general(null, null),
-    goalkeeping_allsides(SkillType.GOALKEEPING, RatingZone.ALLSIDES),
-    defending_allsides(SkillType.DEFENDING, RatingZone.ALLSIDES),
-    defending_thisside(SkillType.DEFENDING, RatingZone.THISSIDE),
-    defending_middle(SkillType.DEFENDING, RatingZone.MIDDLE),
-    playmaking_allsides(SkillType.PLAY_MAKING, RatingZone.ALLSIDES),
-    passing_middle(SkillType.PASSING, RatingZone.MIDDLE),
-    passing_allsides(SkillType.PASSING, RatingZone.ALLSIDES),
-    passing_thisside(SkillType.PASSING, RatingZone.THISSIDE),
-    passing_otherside(SkillType.PASSING, RatingZone.ALLSIDES),
-    winger_thisside(SkillType.WINGER, RatingZone.THISSIDE),
-    winger_allsides(SkillType.WINGER, RatingZone.ALLSIDES),
-    winger_otherside(SkillType.WINGER, RatingZone.OTHERSIDE),
-    scoring_allsides(SkillType.SCORING, RatingZone.ALLSIDES),
-    scoring_otherside(SkillType.SCORING, RatingZone.OTHERSIDE),
-    scoring_thisside(SkillType.SCORING, RatingZone.THISSIDE),
+    goalkeeping_allsides(Skill.GOALKEEPING, RatingZone.ALLSIDES),
+    defending_allsides(Skill.DEFENDING, RatingZone.ALLSIDES),
+    defending_thisside(Skill.DEFENDING, RatingZone.THISSIDE),
+    defending_middle(Skill.DEFENDING, RatingZone.MIDDLE),
+    playmaking_allsides(Skill.PLAY_MAKING, RatingZone.ALLSIDES),
+    passing_middle(Skill.PASSING, RatingZone.MIDDLE),
+    passing_allsides(Skill.PASSING, RatingZone.ALLSIDES),
+    passing_thisside(Skill.PASSING, RatingZone.THISSIDE),
+    passing_otherside(Skill.PASSING, RatingZone.ALLSIDES),
+    winger_thisside(Skill.WINGER, RatingZone.THISSIDE),
+    winger_allsides(Skill.WINGER, RatingZone.ALLSIDES),
+    winger_otherside(Skill.WINGER, RatingZone.OTHERSIDE),
+    scoring_allsides(Skill.SCORING, RatingZone.ALLSIDES),
+    scoring_otherside(Skill.SCORING, RatingZone.OTHERSIDE),
+    scoring_thisside(Skill.SCORING, RatingZone.THISSIDE),
     aim_aow(null, null),
     counter(null, null),
     pressing(null, null),
     longshots(null, null);
 
-    private final SkillType skillType;
+    private final Skill skill;
     private final RatingZone zone;
 }

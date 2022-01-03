@@ -25,11 +25,13 @@ public class Lineup implements Serializable {
     List<LineupPlayer> benchPlayers;
     //List<Substitution> Substitution;
     List<LineupPlayer> penaltyTakers;
+    MatchDetail matchDetail;
 
     private Lineup(final Lineup.LineupBuilder builder) {
         this.fieldPlayers = Collections.unmodifiableList(builder.fieldPlayers);
         this.benchPlayers = Collections.unmodifiableList(builder.benchPlayers);
         this.penaltyTakers = Collections.unmodifiableList(builder.penaltyTakers);
+        this.matchDetail = builder.matchDetail;
     }
 
     @JsonPOJOBuilder(withPrefix = "")

@@ -2,6 +2,7 @@ package net.ddns.tiojack.htte.controller;
 
 import net.ddns.tiojack.htte.model.Lineup;
 import net.ddns.tiojack.htte.model.Ratings;
+import net.ddns.tiojack.htte.model.TrainingRQ;
 import net.ddns.tiojack.htte.service.RatingService;
 import net.ddns.tiojack.htte.service.TrainingService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,8 +28,8 @@ public class ApiController {
     }
 
     @PostMapping("/training")
-    public String training() {
-        return this.trainingService.getTraining();
+    public String training(@RequestBody final TrainingRQ trainingRQ) {
+        return this.trainingService.getTraining(trainingRQ);
     }
 
 }

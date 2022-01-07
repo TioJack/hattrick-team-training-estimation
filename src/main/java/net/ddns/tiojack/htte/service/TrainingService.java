@@ -2,34 +2,25 @@ package net.ddns.tiojack.htte.service;
 
 import lombok.RequiredArgsConstructor;
 import net.ddns.tiojack.htte.model.Training;
+import net.ddns.tiojack.htte.model.TrainingRQ;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class TrainingService {
 
-    public String getTraining() {
-        final double skill = 6.0;
-        final int coach = 6;
-        final int assistents = 6;
-        final int intensity = 70;
-        final int stamina = 17;
-        final Training training = Training.PLAY_MAKING_LESS;
-        final int age = 18;
-        final int days = 0;
-
+    public double getTraining(final TrainingRQ trainingRQ) {
         //T = f(lvl) * K(coach) * K(assist) * K( int) *K(stam) * K(train) * K(age) * K(time)
-        double retVal = this.getSkill(skill);
-        retVal *= this.getCoefficientCoach(coach);
-        retVal *= this.getCoefficientAssistents(assistents);
-        retVal *= this.getCoefficientIntensity(intensity);
-        retVal *= this.getCoefficientStamina(stamina);
-        retVal *= this.getCoefficientTraining(training);
-        retVal *= this.getCoefficientAge(age);
+        double retVal = this.getSkill(trainingRQ.getSkill());
+        retVal *= this.getCoefficientCoach(trainingRQ.getCoach());
+        retVal *= this.getCoefficientAssistants(trainingRQ.getAssistants());
+        retVal *= this.getCoefficientIntensity(trainingRQ.getIntensity());
+        retVal *= this.getCoefficientStamina(trainingRQ.getStamina());
+        retVal *= this.getCoefficientTraining(trainingRQ.getTraining());
+        retVal *= this.getCoefficientAge(trainingRQ.getAge());
         // retVal *= this.getCoefficientTime(); // Always is 1
-        return String.format("%f", retVal);
+        return retVal;
     }
-
 
     private double getSkill(double skill) {
         skill -= 1;
@@ -47,8 +38,8 @@ public class TrainingService {
         };
     }
 
-    private double getCoefficientAssistents(final int assistents) {
-        return switch (assistents) {
+    private double getCoefficientAssistants(final int assistants) {
+        return switch (assistants) {
             case 10 -> 1.350;
             case 9 -> 1.315;
             case 8 -> 1.280;

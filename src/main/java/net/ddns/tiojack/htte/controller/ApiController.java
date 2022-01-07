@@ -28,7 +28,7 @@ public class ApiController {
     }
 
     @PostMapping("/training")
-    public String training(@RequestBody final TrainingRQ trainingRQ) {
+    public double training(@RequestBody final TrainingRQ trainingRQ) {
         return this.trainingService.getTraining(trainingRQ);
     }
 

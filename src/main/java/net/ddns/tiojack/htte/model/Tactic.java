@@ -4,7 +4,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import static net.ddns.tiojack.htte.model.RatingConfigProp.*;
+import static net.ddns.tiojack.htte.model.RatingConfigProp.tacticAIM;
+import static net.ddns.tiojack.htte.model.RatingConfigProp.tacticAOW;
+import static net.ddns.tiojack.htte.model.RatingConfigProp.tacticCounter;
+import static net.ddns.tiojack.htte.model.RatingConfigProp.tacticCreative;
+import static net.ddns.tiojack.htte.model.RatingConfigProp.tacticLongShots;
+import static net.ddns.tiojack.htte.model.RatingConfigProp.tacticNormal;
+import static net.ddns.tiojack.htte.model.RatingConfigProp.tacticPressing;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)

@@ -1,26 +1,22 @@
 package net.ddns.tiojack.htte.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Builder
 @Value
-@JsonDeserialize(builder = Player.LineupPlayerBuilder.class)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@JsonDeserialize(builder = Player.PlayerBuilder.class)
 public class Player implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 7365552274125573163L;
 
     int id;
-    int form;
+    double form;
     double stamina;
     double keeper;
     double playmaker;
@@ -30,14 +26,15 @@ public class Player implements Serializable {
     double defender;
     double setPieces;
     double experience;
-    int loyalty;
+    double loyalty;
     boolean motherClubBonus;
     Specialty specialty;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class LineupPlayerBuilder {
+    public static class PlayerBuilder {
     }
 
+    @JsonIgnore
     public double getSkill(final Skill skill) {
         return switch (skill) {
             case GOALKEEPING -> this.keeper;

@@ -16,7 +16,7 @@ public enum RatingConfigSection {
     passing_middle(Skill.PASSING, RatingZone.MIDDLE),
     passing_allsides(Skill.PASSING, RatingZone.ALLSIDES),
     passing_thisside(Skill.PASSING, RatingZone.THISSIDE),
-    passing_otherside(Skill.PASSING, RatingZone.ALLSIDES),
+    passing_otherside(Skill.PASSING, RatingZone.OTHERSIDE),
     winger_thisside(Skill.WINGER, RatingZone.THISSIDE),
     winger_allsides(Skill.WINGER, RatingZone.ALLSIDES),
     winger_otherside(Skill.WINGER, RatingZone.OTHERSIDE),

@@ -2,24 +2,24 @@ package net.ddns.tiojack.htte.service;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
-import net.ddns.tiojack.htte.model.TrainingRQ;
+import net.ddns.tiojack.htte.model.PlayerTrainingRQ;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class TrainingService {
+public class PlayerTrainingService {
 
-    public double getTraining(final TrainingRQ trainingRQ) {
+    public double getPlayerTraining(final PlayerTrainingRQ playerTrainingRQ) {
         //T = f(lvl) * K(coach) * K(assist) * K(int) * K(stam) * K(train) * K(age) * K(time)
-        return this.getSkill(trainingRQ.getSkill())
-                * this.getCoefficientCoach(trainingRQ.getCoach())
-                * this.getCoefficientAssistants(trainingRQ.getAssistants())
-                * this.getCoefficientIntensity(trainingRQ.getIntensity())
-                * this.getCoefficientStamina(trainingRQ.getStamina())
-                * trainingRQ.getTraining().getCoefficient()
-                * this.getCoefficientAge(trainingRQ.getAge());
+        return this.getSkill(playerTrainingRQ.getSkill())
+                * this.getCoefficientCoach(playerTrainingRQ.getCoach())
+                * this.getCoefficientAssistants(playerTrainingRQ.getAssistants())
+                * this.getCoefficientIntensity(playerTrainingRQ.getIntensity())
+                * this.getCoefficientStamina(playerTrainingRQ.getStamina())
+                * playerTrainingRQ.getTraining().getCoefficient()
+                * this.getCoefficientAge(playerTrainingRQ.getAge());
     }
 
     private double getSkill(final double skill) {

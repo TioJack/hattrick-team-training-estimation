@@ -29,6 +29,10 @@ public class Player implements Serializable {
     double loyalty;
     boolean motherClubBonus;
     Specialty specialty;
+    int age;
+    int days;
+    int inclusionWeek;
+    int daysForNextTraining;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class PlayerBuilder {

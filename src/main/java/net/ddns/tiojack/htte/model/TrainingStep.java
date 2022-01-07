@@ -9,21 +9,20 @@ import java.io.Serializable;
 
 @Builder
 @Value
-@JsonDeserialize(builder = TrainingRQ.TrainingRQBuilder.class)
-public class TrainingRQ implements Serializable {
+@JsonDeserialize(builder = TrainingStep.TrainingStepBuilder.class)
+public class TrainingStep implements Serializable {
 
-    private static final long serialVersionUID = 5413948346193847715L;
+    private static final long serialVersionUID = 5576520405502511575L;
 
-    double skill;
+    int id;
+    int duration;
     int coach;
     int assistants;
     int intensity;
     int stamina;
     Training training;
-    int age;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class TrainingRQBuilder {
+    public static class TrainingStepBuilder {
     }
-
 }

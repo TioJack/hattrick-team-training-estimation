@@ -22,7 +22,7 @@ public class Lineup implements Serializable {
 
     List<LineupPlayer> fieldPlayers;
     List<LineupPlayer> benchPlayers;
-    //List<Substitution> Substitution;
+    //List<Substitution> Substitutions;
     List<LineupPlayer> penaltyTakers;
     MatchDetail matchDetail;
 

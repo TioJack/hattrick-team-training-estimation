@@ -14,7 +14,7 @@ public class TrainingStep implements Serializable {
 
     private static final long serialVersionUID = 5576520405502511575L;
 
-    int id;
+    int trainingStepId;
     int duration;
     int coach;
     int assistants;

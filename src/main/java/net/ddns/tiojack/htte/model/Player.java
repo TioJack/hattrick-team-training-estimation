@@ -15,7 +15,7 @@ public class Player implements Serializable {
 
     private static final long serialVersionUID = 7365552274125573163L;
 
-    int id;
+    int playerId;
     double form;
     double stamina;
     double keeper;

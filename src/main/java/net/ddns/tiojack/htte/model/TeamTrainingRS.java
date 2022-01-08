@@ -9,7 +9,6 @@ import lombok.Value;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 @Builder
@@ -20,8 +19,8 @@ public class TeamTrainingRS implements Serializable {
 
     private static final long serialVersionUID = 7486483872996685721L;
 
-    // < week , players >
-    Map<Integer, List<Player>> weekPlayers;
+    // <week,<playerId,player>>
+    Map<Integer, Map<Integer, Player>> weekPlayers;
 
     private TeamTrainingRS(final TeamTrainingRSBuilder builder) {
         this.weekPlayers = Collections.unmodifiableMap(builder.weekPlayers);

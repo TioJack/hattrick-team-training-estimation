@@ -13,13 +13,13 @@ public class PlayerTrainingService {
 
     public double getPlayerTraining(final PlayerTrainingRQ playerTrainingRQ) {
         //T = f(lvl) * K(coach) * K(assist) * K(int) * K(stam) * K(train) * K(age) * K(time)
-        return this.getSkill(playerTrainingRQ.getSkill())
+        return Math.min(1, this.getSkill(playerTrainingRQ.getSkill())
                 * this.getCoefficientCoach(playerTrainingRQ.getCoach())
                 * this.getCoefficientAssistants(playerTrainingRQ.getAssistants())
                 * this.getCoefficientIntensity(playerTrainingRQ.getIntensity())
                 * this.getCoefficientStamina(playerTrainingRQ.getStamina())
                 * playerTrainingRQ.getTraining().getCoefficient()
-                * this.getCoefficientAge(playerTrainingRQ.getAge());
+                * this.getCoefficientAge(playerTrainingRQ.getAge()));
     }
 
     private double getSkill(final double skill) {

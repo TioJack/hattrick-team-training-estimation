@@ -36,7 +36,7 @@ public class ApiController {
         return this.ratingService.getRatings(startingLineup);
     }
 
-    @PostMapping("/training")
+    @PostMapping("/playerTraining")
     public double training(@RequestBody final PlayerTrainingRQ playerTrainingRQ) {
         return this.playerTrainingService.getPlayerTraining(playerTrainingRQ);
     }

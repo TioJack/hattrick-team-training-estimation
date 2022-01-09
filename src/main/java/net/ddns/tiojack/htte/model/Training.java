@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Training {
+    NO_TRAINING(0, 0.0, false),
     GOALKEEPING(9, 0.0510, true),
     DEFENDING(3, 0.0288, true),
     PLAY_MAKING(8, 0.0336, true),

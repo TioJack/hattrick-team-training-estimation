@@ -2,6 +2,8 @@ package net.ddns.tiojack.htte.service;
 
 import lombok.RequiredArgsConstructor;
 import net.ddns.tiojack.htte.model.Player;
+import net.ddns.tiojack.htte.model.PlayerTrainingRQ;
+import net.ddns.tiojack.htte.model.Skill;
 import net.ddns.tiojack.htte.model.TeamTrainingRQ;
 import net.ddns.tiojack.htte.model.TeamTrainingRS;
 import net.ddns.tiojack.htte.model.Training;
@@ -21,6 +23,8 @@ import static java.util.Collections.emptyList;
 @Service
 @RequiredArgsConstructor
 public class TeamTrainingService {
+
+    private final PlayerTrainingService playerTrainingService;
 
     public TeamTrainingRS getTeamTraining(final TeamTrainingRQ teamTrainingRQ) {
         final AtomicInteger week = new AtomicInteger(0);
@@ -53,11 +57,11 @@ public class TeamTrainingService {
                 .form(player.getForm())
                 .stamina(player.getStamina())
                 .keeper(player.getKeeper())
-                .playmaker(player.getPlaymaker())
-                .scorer(player.getScorer())
-                .passing(player.getPassing())
-                .winger(player.getWinger())
                 .defender(player.getDefender())
+                .playmaker(player.getPlaymaker())
+                .winger(player.getWinger())
+                .passing(player.getPassing())
+                .scorer(player.getScorer())
                 .setPieces(player.getSetPieces())
                 .experience(player.getExperience())
                 .loyalty(player.getLoyalty())
@@ -77,6 +81,62 @@ public class TeamTrainingService {
     private Player applyTraining(final Player player, final TrainingStep trainingStep, final Training training) {
         return training == Training.NO_TRAINING
                 ? player
-                :; //TODO call PlayerTrainingService
+                : this.applyPlayerTraining(player, trainingStep, training);
     }
+
+    private Player applyPlayerTraining(final Player player, final TrainingStep trainingStep, final Training training) {
+        final PlayerTrainingRQ playerTrainingRQ = PlayerTrainingRQ.builder()
+                .skill(player.getSkill(training.getSkill()))
+                .age(player.getAge())
+                .coach(trainingStep.getCoach())
+                .assistants(trainingStep.getAssistants())
+                .intensity(trainingStep.getIntensity())
+                .stamina(trainingStep.getStamina())
+                .training(training)
+                .build();
+        return this.addPlayerSkill(player, training.getSkill(), this.playerTrainingService.getPlayerTraining(playerTrainingRQ));
+    }
+
+
+    private Player addPlayerSkill(final Player player, final Skill skill, final double addValueTraining) {
+        double keeper = player.getKeeper();
+        double defender = player.getDefender();
+        double playmaker = player.getPlaymaker();
+        double winger = player.getWinger();
+        double passing = player.getPassing();
+        double scorer = player.getScorer();
+        double setPieces = player.getSetPieces();
+
+        switch (skill) {
+            case GOALKEEPING -> keeper += addValueTraining;
+            case DEFENDING -> defender += addValueTraining;
+            case PLAY_MAKING -> playmaker += addValueTraining;
+            case WINGER -> winger += addValueTraining;
+            case PASSING -> passing += addValueTraining;
+            case SCORING -> scorer += addValueTraining;
+            case SET_PIECES -> setPieces += addValueTraining;
+        }
+
+        return Player.builder()
+                .playerId(player.getPlayerId())
+                .form(player.getForm())
+                .stamina(player.getStamina())
+                .keeper(keeper)
+                .defender(defender)
+                .playmaker(playmaker)
+                .winger(winger)
+                .passing(passing)
+                .scorer(scorer)
+                .setPieces(setPieces)
+                .experience(player.getExperience())
+                .loyalty(player.getLoyalty())
+                .motherClubBonus(player.isMotherClubBonus())
+                .specialty(player.getSpecialty())
+                .age(player.getAge())
+                .days(player.getDays())
+                .inclusionWeek(player.getInclusionWeek())
+                .daysForNextTraining(player.getDaysForNextTraining())
+                .build();
+    }
+
 }

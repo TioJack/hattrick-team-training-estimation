@@ -19,11 +19,11 @@ public class Player implements Serializable {
     double form;
     double stamina;
     double keeper;
-    double playmaker;
-    double scorer;
-    double passing;
-    double winger;
     double defender;
+    double playmaker;
+    double winger;
+    double passing;
+    double scorer;
     double setPieces;
     double experience;
     double loyalty;

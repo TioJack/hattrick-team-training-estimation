@@ -19,18 +19,18 @@ public class TeamTrainingRQ implements Serializable {
 
     private static final long serialVersionUID = 5331342158872356541L;
 
-    //<trainingStepId,TrainingStep>
-    Map<Integer, TrainingStep> trainingSteps;
-
     //<playerId,Player>
     Map<Integer, Player> players;
+
+    //<trainingStepId,TrainingStep>
+    Map<Integer, TrainingStep> trainingSteps;
 
     //<trainingStepId,<playerId,Training>>
     Map<Integer, Map<Integer, Training>> stepPlayerTraining;
 
     private TeamTrainingRQ(final TeamTrainingRQBuilder builder) {
-        this.trainingSteps = Collections.unmodifiableMap(builder.trainingSteps);
         this.players = Collections.unmodifiableMap(builder.players);
+        this.trainingSteps = Collections.unmodifiableMap(builder.trainingSteps);
         this.stepPlayerTraining = Collections.unmodifiableMap(builder.stepPlayerTraining);
     }
 

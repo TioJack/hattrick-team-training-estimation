@@ -52,5 +52,4 @@ target/
 #NODE
 node_modules/
 node/
-src/main/resources/static/js
 package-lock.json

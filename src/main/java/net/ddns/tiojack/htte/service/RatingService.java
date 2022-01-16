@@ -71,7 +71,7 @@ public class RatingService {
     }
 
     private double getAverageRatings(final Map<Integer, Double> ratings) {
-        final List<Integer> minutes = ratings.keySet().stream().sorted().toList();
+        final List<Integer> minutes = ratings.keySet().stream().sorted().collect(Collectors.toList());
         return IntStream.range(0, minutes.size() - 1)
                 .mapToDouble(m -> (ratings.get(minutes.get(m)) + ratings.get(minutes.get(m + 1))) / 2.0 * (minutes.get(m + 1) - minutes.get(m)))
                 .sum() / 90.0;

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -48,7 +49,7 @@ public class TeamTrainingService {
                         previousWeekPlayers.stream().map(player -> this.addPlayerDays(player, 7)))
                 .map(player -> this.applyTraining(player, this.getTrainingStage(teamTrainingRQ, trainingStageId), teamTrainingRQ.getStagePlayerTraining().get(trainingStageId).getOrDefault(player.getPlayerId(), Training.NO_TRAINING)))
                 .sorted(Comparator.comparingInt(Player::getPlayerId))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     private Player addPlayerDays(final Player player, final int addDays) {
@@ -109,13 +110,27 @@ public class TeamTrainingService {
         double setPieces = player.getSetPieces();
 
         switch (skill) {
-            case GOALKEEPING -> keeper += addValueTraining;
-            case DEFENDING -> defender += addValueTraining;
-            case PLAY_MAKING -> playmaker += addValueTraining;
-            case WINGER -> winger += addValueTraining;
-            case PASSING -> passing += addValueTraining;
-            case SCORING -> scorer += addValueTraining;
-            case SET_PIECES -> setPieces += addValueTraining;
+            case GOALKEEPING:
+                keeper += addValueTraining;
+                break;
+            case DEFENDING:
+                defender += addValueTraining;
+                break;
+            case PLAY_MAKING:
+                playmaker += addValueTraining;
+                break;
+            case WINGER:
+                winger += addValueTraining;
+                break;
+            case PASSING:
+                passing += addValueTraining;
+                break;
+            case SCORING:
+                scorer += addValueTraining;
+                break;
+            case SET_PIECES:
+                setPieces += addValueTraining;
+                break;
         }
 
         return Player.builder()

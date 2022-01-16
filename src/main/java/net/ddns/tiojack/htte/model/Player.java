@@ -40,15 +40,23 @@ public class Player implements Serializable {
 
     @JsonIgnore
     public double getSkill(final Skill skill) {
-        return switch (skill) {
-            case GOALKEEPING -> this.keeper;
-            case DEFENDING -> this.defender;
-            case WINGER -> this.winger;
-            case PLAY_MAKING -> this.playmaker;
-            case SCORING -> this.scorer;
-            case PASSING -> this.passing;
-            case SET_PIECES -> this.setPieces;
-        };
+        switch (skill) {
+            case GOALKEEPING:
+                return this.keeper;
+            case DEFENDING:
+                return this.defender;
+            case WINGER:
+                return this.winger;
+            case PLAY_MAKING:
+                return this.playmaker;
+            case SCORING:
+                return this.scorer;
+            case PASSING:
+                return this.passing;
+            case SET_PIECES:
+                return this.setPieces;
+        }
+        return this.setPieces;
     }
 
 }

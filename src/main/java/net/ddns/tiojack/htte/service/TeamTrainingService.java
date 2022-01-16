@@ -7,14 +7,14 @@ import net.ddns.tiojack.htte.model.Skill;
 import net.ddns.tiojack.htte.model.TeamTrainingRQ;
 import net.ddns.tiojack.htte.model.TeamTrainingRS;
 import net.ddns.tiojack.htte.model.Training;
-import net.ddns.tiojack.htte.model.TrainingStep;
+import net.ddns.tiojack.htte.model.TrainingStage;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -28,11 +28,11 @@ public class TeamTrainingService {
 
     public TeamTrainingRS getTeamTraining(final TeamTrainingRQ teamTrainingRQ) {
         final AtomicInteger week = new AtomicInteger(0);
-        // <week,trainingStepId>
+        // <week,trainingStageId>
         final Map<Integer, Integer> weeks = new HashMap<>();
-        teamTrainingRQ.getTrainingSteps().values().forEach(trainingStep ->
-                IntStream.range(0, trainingStep.getDuration()).forEach(
-                        step -> weeks.put(week.incrementAndGet(), trainingStep.getTrainingStepId())
+        teamTrainingRQ.getTrainingStages().values().forEach(trainingStage ->
+                IntStream.range(0, trainingStage.getDuration()).forEach(
+                        stage -> weeks.put(week.incrementAndGet(), trainingStage.getTrainingStageId())
                 )
         );
 
@@ -42,12 +42,13 @@ public class TeamTrainingService {
         return TeamTrainingRS.builder().weekPlayers(weekPlayers).build();
     }
 
-    private List<Player> getPlayers(final int week, final int trainingStepId, final List<Player> previousWeekPlayers, final TeamTrainingRQ teamTrainingRQ) {
+    private List<Player> getPlayers(final int week, final int trainingStageId, final List<Player> previousWeekPlayers, final TeamTrainingRQ teamTrainingRQ) {
         return Stream.concat(
                         teamTrainingRQ.getPlayers().values().stream().filter(player -> player.getInclusionWeek() == week).map(player -> this.addPlayerDays(player, player.getDaysForNextTraining())),
                         previousWeekPlayers.stream().map(player -> this.addPlayerDays(player, 7)))
-                .map(player -> this.applyTraining(player, this.getTrainingStep(teamTrainingRQ, trainingStepId), teamTrainingRQ.getStepPlayerTraining().get(trainingStepId).getOrDefault(player.getPlayerId(), Training.NO_TRAINING)))
-                .collect(Collectors.toList());
+                .map(player -> this.applyTraining(player, this.getTrainingStage(teamTrainingRQ, trainingStageId), teamTrainingRQ.getStagePlayerTraining().get(trainingStageId).getOrDefault(player.getPlayerId(), Training.NO_TRAINING)))
+                .sorted(Comparator.comparingInt(Player::getPlayerId))
+                .toList();
     }
 
     private Player addPlayerDays(final Player player, final int addDays) {
@@ -74,24 +75,24 @@ public class TeamTrainingService {
                 .build();
     }
 
-    private TrainingStep getTrainingStep(final TeamTrainingRQ teamTrainingRQ, final int trainingStepId) {
-        return teamTrainingRQ.getTrainingSteps().get(trainingStepId);
+    private TrainingStage getTrainingStage(final TeamTrainingRQ teamTrainingRQ, final int trainingStageId) {
+        return teamTrainingRQ.getTrainingStages().get(trainingStageId);
     }
 
-    private Player applyTraining(final Player player, final TrainingStep trainingStep, final Training training) {
+    private Player applyTraining(final Player player, final TrainingStage trainingStage, final Training training) {
         return training == Training.NO_TRAINING
                 ? player
-                : this.applyPlayerTraining(player, trainingStep, training);
+                : this.applyPlayerTraining(player, trainingStage, training);
     }
 
-    private Player applyPlayerTraining(final Player player, final TrainingStep trainingStep, final Training training) {
+    private Player applyPlayerTraining(final Player player, final TrainingStage trainingStage, final Training training) {
         final PlayerTrainingRQ playerTrainingRQ = PlayerTrainingRQ.builder()
                 .skill(player.getSkill(training.getSkill()))
                 .age(player.getAge())
-                .coach(trainingStep.getCoach())
-                .assistants(trainingStep.getAssistants())
-                .intensity(trainingStep.getIntensity())
-                .stamina(trainingStep.getStamina())
+                .coach(trainingStage.getCoach())
+                .assistants(trainingStage.getAssistants())
+                .intensity(trainingStage.getIntensity())
+                .stamina(trainingStage.getStamina())
                 .training(training)
                 .build();
         return this.addPlayerSkill(player, training.getSkill(), this.playerTrainingService.getPlayerTraining(playerTrainingRQ));

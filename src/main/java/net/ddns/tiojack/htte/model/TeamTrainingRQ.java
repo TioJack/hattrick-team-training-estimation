@@ -22,16 +22,16 @@ public class TeamTrainingRQ implements Serializable {
     //<playerId,Player>
     Map<Integer, Player> players;
 
-    //<trainingStepId,TrainingStep>
-    Map<Integer, TrainingStep> trainingSteps;
+    //<trainingStageId,TrainingStage>
+    Map<Integer, TrainingStage> trainingStages;
 
-    //<trainingStepId,<playerId,Training>>
-    Map<Integer, Map<Integer, Training>> stepPlayerTraining;
+    //<trainingStageId,<playerId,Training>>
+    Map<Integer, Map<Integer, Training>> stagePlayerTraining;
 
     private TeamTrainingRQ(final TeamTrainingRQBuilder builder) {
         this.players = Collections.unmodifiableMap(builder.players);
-        this.trainingSteps = Collections.unmodifiableMap(builder.trainingSteps);
-        this.stepPlayerTraining = Collections.unmodifiableMap(builder.stepPlayerTraining);
+        this.trainingStages = Collections.unmodifiableMap(builder.trainingStages);
+        this.stagePlayerTraining = Collections.unmodifiableMap(builder.stagePlayerTraining);
     }
 
     @JsonPOJOBuilder(withPrefix = "")

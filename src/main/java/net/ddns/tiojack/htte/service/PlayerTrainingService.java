@@ -121,7 +121,7 @@ public class PlayerTrainingService {
             .put(11, 0.0846)
             .build();
 
-    private double getDropAge(final Skill skill, final int age) {
+    public double getDropAge(final Skill skill, final int age) {
         final int ageLoss = age - skill.getAgeNoDrop();
         return ageLoss < 1 ? 0 : AGE_LOSS.getOrDefault(ageLoss, 0.0846);
     }

@@ -46,7 +46,7 @@ public class TeamTrainingService {
     private List<Player> getPlayers(final int week, final int trainingStageId, final List<Player> previousWeekPlayers, final TeamTrainingRQ teamTrainingRQ) {
         return Stream.concat(
                         teamTrainingRQ.getPlayers().values().stream().filter(player -> player.getInclusionWeek() == week).map(player -> this.addPlayerDays(player, player.getDaysForNextTraining())),
-                        previousWeekPlayers.stream().map(player -> this.addPlayerDays(player, 7)))
+                        previousWeekPlayers.stream().map(this::applyWeekChanges))
                 .map(player -> this.applyTraining(player, this.getTrainingStage(teamTrainingRQ, trainingStageId), teamTrainingRQ.getStagePlayerTraining().get(trainingStageId).getOrDefault(player.getPlayerId(), Training.NO_TRAINING)))
                 .sorted(Comparator.comparingInt(Player::getPlayerId))
                 .collect(Collectors.toList());
@@ -76,6 +76,31 @@ public class TeamTrainingService {
                 .build();
     }
 
+    private Player applyWeekChanges(final Player player) {
+        final int days = player.getDays() + 7;
+        final int age = days > 111 ? player.getAge() + 1 : player.getAge();
+        return Player.builder()
+                .playerId(player.getPlayerId())
+                .form(player.getForm())
+                .stamina(player.getStamina())
+                .keeper(Math.max(0, player.getKeeper() - this.playerTrainingService.getDropAge(Skill.GOALKEEPING, age)))
+                .defender(Math.max(0, player.getDefender() - this.playerTrainingService.getDropAge(Skill.DEFENDING, age)))
+                .playmaker(Math.max(0, player.getPlaymaker() - this.playerTrainingService.getDropAge(Skill.PLAY_MAKING, age)))
+                .winger(Math.max(0, player.getWinger() - this.playerTrainingService.getDropAge(Skill.WINGER, age)))
+                .passing(Math.max(0, player.getPassing() - this.playerTrainingService.getDropAge(Skill.PASSING, age)))
+                .scorer(Math.max(0, player.getScorer() - this.playerTrainingService.getDropAge(Skill.SCORING, age)))
+                .setPieces(Math.max(0, player.getSetPieces() - this.playerTrainingService.getDropAge(Skill.SET_PIECES, age)))
+                .experience(player.getExperience())
+                .loyalty(player.getLoyalty())
+                .motherClubBonus(player.isMotherClubBonus())
+                .specialty(player.getSpecialty())
+                .age(age)
+                .days(days % 112)
+                .inclusionWeek(player.getInclusionWeek())
+                .daysForNextTraining(0)
+                .build();
+    }
+
     private TrainingStage getTrainingStage(final TeamTrainingRQ teamTrainingRQ, final int trainingStageId) {
         return teamTrainingRQ.getTrainingStages().get(trainingStageId);
     }
@@ -96,11 +121,11 @@ public class TeamTrainingService {
                 .stamina(trainingStage.getStamina())
                 .training(training)
                 .build();
-        return this.addPlayerSkill(player, training.getSkill(), this.playerTrainingService.getPlayerTraining(playerTrainingRQ));
+        return this.addPlayerTraining(player, training.getSkill(), this.playerTrainingService.getPlayerTraining(playerTrainingRQ));
     }
 
 
-    private Player addPlayerSkill(final Player player, final Skill skill, final double addValueTraining) {
+    private Player addPlayerTraining(final Player player, final Skill skill, final double addValueTraining) {
         double keeper = player.getKeeper();
         double defender = player.getDefender();
         double playmaker = player.getPlaymaker();

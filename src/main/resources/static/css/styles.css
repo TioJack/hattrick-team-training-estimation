@@ -1,3 +1,7 @@
+#section_templates {
+    display: none;
+}
+
 #section_header {
     padding-top: 20px;
 }

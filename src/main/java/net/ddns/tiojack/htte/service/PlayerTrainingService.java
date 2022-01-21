@@ -21,6 +21,7 @@ public class PlayerTrainingService {
                 * this.getCoefficientStamina(playerTrainingRQ.getStamina())
                 * playerTrainingRQ.getTraining().getCoefficient()
                 * this.getCoefficientAge(playerTrainingRQ.getAge()));
+        //* K(time) always is 1.0 on htte
 
         return Math.max(0, training - this.getDropLevel(playerTrainingRQ.getSkill(), playerTrainingRQ.getAge()));
     }

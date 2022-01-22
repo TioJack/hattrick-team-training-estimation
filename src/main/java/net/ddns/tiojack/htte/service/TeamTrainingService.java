@@ -44,45 +44,22 @@ public class TeamTrainingService {
     }
 
     private List<Player> getPlayers(final int week, final int trainingStageId, final List<Player> previousWeekPlayers, final TeamTrainingRQ teamTrainingRQ) {
+        final TrainingStage trainingStage = this.getTrainingStage(teamTrainingRQ, trainingStageId);
         return Stream.concat(
-                        teamTrainingRQ.getPlayers().values().stream().filter(player -> player.getInclusionWeek() == week).map(player -> this.addPlayerDays(player, player.getDaysForNextTraining())),
-                        previousWeekPlayers.stream().map(this::applyWeekChanges))
-                .map(player -> this.applyTraining(player, this.getTrainingStage(teamTrainingRQ, trainingStageId), teamTrainingRQ.getStagePlayerTraining().get(trainingStageId).getOrDefault(player.getPlayerId(), Training.NO_TRAINING)))
+                        teamTrainingRQ.getPlayers().values().stream().filter(player -> player.getInclusionWeek() == week).map(player -> this.applyWeekChanges(player, player.getDaysForNextTraining(), trainingStage)),
+                        previousWeekPlayers.stream().map(player -> this.applyWeekChanges(player, 7, trainingStage)))
+                .map(player -> this.applyTraining(player, trainingStage, teamTrainingRQ.getStagePlayerTraining().get(trainingStageId).getOrDefault(player.getPlayerId(), Training.NO_TRAINING)))
                 .sorted(Comparator.comparingInt(Player::getPlayerId))
                 .collect(Collectors.toList());
     }
 
-    private Player addPlayerDays(final Player player, final int addDays) {
+    private Player applyWeekChanges(final Player player, final int addDays, final TrainingStage trainingStage) {
         final int days = player.getDays() + addDays;
-        return Player.builder()
-                .playerId(player.getPlayerId())
-                .form(player.getForm())
-                .stamina(player.getStamina())
-                .keeper(player.getKeeper())
-                .defender(player.getDefender())
-                .playmaker(player.getPlaymaker())
-                .winger(player.getWinger())
-                .passing(player.getPassing())
-                .scorer(player.getScorer())
-                .setPieces(player.getSetPieces())
-                .experience(player.getExperience())
-                .loyalty(player.getLoyalty())
-                .motherClubBonus(player.isMotherClubBonus())
-                .specialty(player.getSpecialty())
-                .age(days > 111 ? player.getAge() + 1 : player.getAge())
-                .days(days % 112)
-                .inclusionWeek(player.getInclusionWeek())
-                .daysForNextTraining(0)
-                .build();
-    }
-
-    private Player applyWeekChanges(final Player player) {
-        final int days = player.getDays() + 7;
         final int age = days > 111 ? player.getAge() + 1 : player.getAge();
         return Player.builder()
                 .playerId(player.getPlayerId())
                 .form(player.getForm())
-                .stamina(player.getStamina())
+                .stamina(this.playerTrainingService.getStaminaTraining(age, player.getStamina(), trainingStage.getStamina(), trainingStage.getIntensity()))
                 .keeper(Math.max(0, player.getKeeper() - this.playerTrainingService.getDropAge(Skill.GOALKEEPING, age)))
                 .defender(Math.max(0, player.getDefender() - this.playerTrainingService.getDropAge(Skill.DEFENDING, age)))
                 .playmaker(Math.max(0, player.getPlaymaker() - this.playerTrainingService.getDropAge(Skill.PLAY_MAKING, age)))

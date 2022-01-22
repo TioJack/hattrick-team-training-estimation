@@ -127,4 +127,75 @@ public class PlayerTrainingService {
         return ageLoss < 1 ? 0 : AGE_LOSS.getOrDefault(ageLoss, 0.0846);
     }
 
+    private static final Map<Integer, Integer> K = ImmutableMap.<Integer, Integer>builder()
+            .put(17, 3)
+            .put(18, 3)
+            .put(19, 3)
+            .put(20, 0)
+            .put(21, 0)
+            .put(22, 0)
+            .put(23, 0)
+            .put(24, 0)
+            .put(25, 1)
+            .put(26, 2)
+            .put(27, 3)
+            .put(28, 4)
+            .put(29, 5)
+            .put(30, 6)
+            .put(31, 7)
+            .put(32, 8)
+            .put(33, 9)
+            .put(34, 11)
+            .put(35, 13)
+            .put(36, 15)
+            .put(37, 17)
+            .put(38, 19)
+            .put(39, 21)
+            .build();
+
+    private static final Map<Integer, Integer> S_MAX = ImmutableMap.<Integer, Integer>builder()
+            .put(17, 282)
+            .put(18, 282)
+            .put(19, 282)
+            .put(20, 282)
+            .put(21, 282)
+            .put(22, 282)
+            .put(23, 282)
+            .put(24, 282)
+            .put(25, 282)
+            .put(26, 282)
+            .put(27, 282)
+            .put(28, 275)
+            .put(29, 268)
+            .put(30, 261)
+            .put(31, 254)
+            .put(32, 247)
+            .put(33, 240)
+            .put(34, 226)
+            .put(35, 212)
+            .put(36, 198)
+            .put(37, 184)
+            .put(38, 170)
+            .put(39, 156)
+            .build();
+
+    public double getStaminaTraining(final int playerAge, final double playerStamina, final int trainingStamina, final int trainingIntensity) {
+        final double lvl = playerStamina - 1.0;
+        final double kage = K.getOrDefault(playerAge, 21) * 7.0 / 30.0;
+        final double l = lvl + kage;
+        final double s = (trainingStamina / 100.0) * (trainingIntensity / 100.0);
+
+        double stamina = 0.0;
+        if (l >= 7.56) {
+            stamina = -1.05 * Math.pow(s, 2) + 2.1 * s + (-0.00016) * Math.pow(l, 3) + (-0.00544) * Math.pow(l, 2) + 0.0013 * l + (-0.0185);
+        }
+        if (7.0 < l && l < 7.56) {
+            stamina = -1.05 * Math.pow(s, 2) + 2.1 * s + (-0.00772) * Math.pow(l, 3) + 0.0636 * Math.pow(l, 2) + (-0.0178) * l + (-0.554);
+        }
+        if (l <= 7.0) {
+            stamina = (-1.05 * Math.pow(s, 2) + 2.1 * s) * (0.00013 * Math.pow(l, 3) + 0.0048 * Math.pow(l, 2) + (-0.301) * l + 2.826) - 0.21;
+        }
+        return Math.max(0.7, Math.min(S_MAX.getOrDefault(playerAge, 156) / 30.0, playerStamina + stamina));
+    }
+
 }

@@ -139,25 +139,9 @@ function loadResults(results) {
 }
 
 function addPlayerResult(player) {
-    // const ini = players.filter(pl => pl.playerId === player.playerId)[0];
-    // $("<div class=\"res_player_top\">\n" +
-    //     "  <div class=\"res_player b1 p5\">\n" +
-    //     "    <div class=\"h tac\">Jugador " + ini.playerId + "</div>\n" +
-    //     "    <div class=\"h\">Años: " + ini.age + "</div>\n" +
-    //     "    <div class=\"h\">Días: " + ini.days + "</div>\n" +
-    //     "    <div class=\"h\">Porteria: " + ini.keeper + "</div>\n" +
-    //     "    <div class=\"h\">Defensa: " + ini.defender + "</div>\n" +
-    //     "    <div class=\"h\">Jugadas: " + ini.playmaker + "</div>\n" +
-    //     "    <div class=\"h\">Lateral: " + ini.winger + "</div>\n" +
-    //     "    <div class=\"h\">Pases: " + ini.passing + "</div>\n" +
-    //     "    <div class=\"h\">Anotación: " + ini.scorer + "</div>\n" +
-    //     "    <div class=\"h\">Balón Parado: " + ini.setPieces + "</div>\n" +
-    //     "  </div>\n" +
-    //     "  <div class=\"res_player_sep\">==></div>\n" +
-    //     "</div>\n"
-    // ).appendTo($('#div_results'));
-    var template = Handlebars.compile($("#template_res_player").html());
-    $('#div_results').append(template(player));
+    const ini = players.filter(pl => pl.playerId === player.playerId)[0];
+    const template = Handlebars.compile($("#template_res_player").html());
+    $('#div_results').append("<div class='res_player_top'>" + template(ini) + "<div class='res_player_sep'>==></div>" + template(player) + "</div>");
 }
 
 function getDate() {

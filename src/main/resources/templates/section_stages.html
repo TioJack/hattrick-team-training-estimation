@@ -1,11 +1,11 @@
 <section id="section_stages">
     <div id="section_stages_info">Paso 2) Configurar las etapas de entrenamiento.</div>
     <div id="stages">
-        <div class="new_stage b1 p5">
+        <form id="new_stage" class="new_stage b1 p5">
             <div class="h tac">Nueva Etapa</div>
             <div class="h">
                 Entrenamiento:
-                <select id="new_stage_training">
+                <select name="training">
                     <option value="9">Portería</option>
                     <option value="3">Defensa</option>
                     <option value="8">Jugadas</option>
@@ -17,7 +17,7 @@
             </div>
             <div class="h">
                 Duración:
-                <select id="new_stage_duration">
+                <select name="duration">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -182,7 +182,7 @@
             </div>
             <div class="h">
                 Entrenador:
-                <select id="new_stage_coach">
+                <select name="coach">
                     <option>4</option>
                     <option>5</option>
                     <option>6</option>
@@ -192,7 +192,7 @@
             </div>
             <div class="h">
                 Asistentes:
-                <select id="new_stage_assistants">
+                <select name="assistants">
                     <option>0</option>
                     <option>1</option>
                     <option>2</option>
@@ -208,7 +208,7 @@
             </div>
             <div class="h">
                 Intensidad:
-                <select id="new_stage_intensity">
+                <select name="intensity">
                     <option>100</option>
                     <option>99</option>
                     <option>98</option>
@@ -314,7 +314,7 @@
             </div>
             <div class="h">
                 Resistencia:
-                <select id="new_stage_stamina">
+                <select name="stamina">
                     <option>10</option>
                     <option>11</option>
                     <option>12</option>
@@ -409,6 +409,6 @@
                 </select>
             </div>
             <div class="p10 tac"><label class="button" id="add_trainingStage">Añadir Etapa</label></div>
-        </div>
+        </form>
     </div>
 </section>

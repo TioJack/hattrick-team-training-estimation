@@ -1,11 +1,11 @@
 <section id="section_players">
     <div id="section_players_info">Paso 1) Configurar los jugadores definiendo sus habilidades iniciales y la semana de incorporación al entrenamiento.</div>
     <div id="players">
-        <div class="new_player b1 p5">
+        <form id="new_player" class="new_player b1 p5">
             <div class="h tac">Nuevo Jugador</div>
             <div class="h">
                 Años:
-                <select id="new_player_age">
+                <select name="age">
                     <option>17</option>
                     <option>18</option>
                     <option>19</option>
@@ -34,7 +34,7 @@
             </div>
             <div class="h">
                 Días:
-                <select id="new_player_days">
+                <select name="days">
                     <option>0</option>
                     <option>1</option>
                     <option>2</option>
@@ -151,7 +151,7 @@
             </div>
             <div class="h">
                 Forma:
-                <select id="new_player_form">
+                <select name="form">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -164,7 +164,7 @@
             </div>
             <div class="h">
                 Resistencia:
-                <select id="new_player_stamina">
+                <select name="stamina">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -178,7 +178,7 @@
             </div>
             <div class="h">
                 Experiencia:
-                <select id="new_player_experience">
+                <select name="experience">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -203,7 +203,7 @@
             </div>
             <div class="h">
                 Fidelidad:
-                <select id="new_player_loyalty">
+                <select name="loyalty">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -228,14 +228,14 @@
             </div>
             <div class="h">
                 Club de origen:
-                <select id="new_player_motherClubBonus">
+                <select name="motherClubBonus">
                     <option value="0">No</option>
                     <option value="1">Si</option>
                 </select>
             </div>
             <div class="h">
                 Especialidad:
-                <select id="new_player_specialty">
+                <select name="specialty">
                     <option value="0">Sin especialidad</option>
                     <option value="1">Técnico</option>
                     <option value="2">Rápido</option>
@@ -248,7 +248,7 @@
             </div>
             <div class="h">
                 Porteria:
-                <select id="new_player_keeper">
+                <select name="keeper">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -273,7 +273,7 @@
             </div>
             <div class="h">
                 Defensa:
-                <select id="new_player_defender">
+                <select name="defender">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -298,7 +298,7 @@
             </div>
             <div class="h">
                 Jugadas:
-                <select id="new_player_playmaker">
+                <select name="playmaker">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -323,7 +323,7 @@
             </div>
             <div class="h">
                 Lateral:
-                <select id="new_player_winger">
+                <select name="winger">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -348,7 +348,7 @@
             </div>
             <div class="h">
                 Pases:
-                <select id="new_player_passing">
+                <select name="passing">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -373,7 +373,7 @@
             </div>
             <div class="h">
                 Anotación:
-                <select id="new_player_scorer">
+                <select name="scorer">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -398,7 +398,7 @@
             </div>
             <div class="h">
                 Balón Parado:
-                <select id="new_player_setPieces">
+                <select name="setPieces">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -423,7 +423,7 @@
             </div>
             <div class="h">
                 Semana de incorporación:
-                <select id="new_player_inclusionWeek">
+                <select name="inclusionWeek">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -728,7 +728,7 @@
             </div>
             <div class="h">
                 Días para el próximo entrenamiento:
-                <select id="new_player_daysForNextTraining">
+                <select name="daysForNextTraining">
                     <option>0</option>
                     <option>1</option>
                     <option>2</option>
@@ -740,6 +740,6 @@
                 </select>
             </div>
             <div class="p10 tac"><label class="button" id="add_player">Añadir Jugador</label></div>
-        </div>
+        </form>
     </div>
 </section>

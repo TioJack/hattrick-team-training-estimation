@@ -1,4 +1,39 @@
 <section id="section_templates">
+    <div id="template_player">
+        <div class="player b1 p5" id="player_{{playerId}}">
+            <div class="h tac">Jugador {{playerId}}</div>
+            <div class="h">Años: {{age}}</div>
+            <div class="h">Días: {{days}}</div>
+            <div class="h">Forma: {{form}}</div>
+            <div class="h">Resistencia: {{stamina}}</div>
+            <div class="h">Experiencia: {{experience}}</div>
+            <div class="h">Fidelidad: {{loyalty}}</div>
+            <div class="h">Club de origen: {{motherClubBonus}}</div>
+            <div class="h">Especialidad: {{specialty}}</div>
+            <div class="h">Porteria: {{keeper}}</div>
+            <div class="h">Defensa: {{defender}}</div>
+            <div class="h">Jugadas: {{playmaker}}</div>
+            <div class="h">Lateral: {{winger}}</div>
+            <div class="h">Pases: {{passing}}</div>
+            <div class="h">Anotación: {{scorer}}</div>
+            <div class="h">Balón Parado: {{setPieces}}</div>
+            <div class="h">Semana de incorporación: {{inclusionWeek}}</div>
+            <div class="h">Días para el próximo entrenamiento: {{daysForNextTraining}}</div>
+            <div class="p10 tac"><label class="button" onclick="delPlayer({{playerId}})">Borrar Jugador</label></div>
+        </div>
+    </div>
+    <div id="template_stage">
+        <div class="stage b1 p5" id="stage_{{trainingStageId}}">
+            <div class="h tac">Etapa {{trainingStageId}}</div>
+            <div class="h">Entrenamiento: {{trainingName training}}</div>
+            <div class="h">Duración: {{duration}}</div>
+            <div class="h">Entrenador: {{coach}}</div>
+            <div class="h">Asistentes: {{assistants}}</div>
+            <div class="h">Intensidad: {{intensity}}</div>
+            <div class="h">Resistencia: {{stamina}}</div>
+            <div class="p10 tac"><label class="button" onclick="delTrainingStage({{trainingStageId}})">Borrar Etapa</label></div>
+        </div>
+    </div>
     <div id="template_res_player">
         <div class="res_player b1 p5">
             <div class="h tac">Jugador {{playerId}}</div>

@@ -1,9 +1,14 @@
+const template_player = Handlebars.compile($("#template_player").html());
+const template_stage = Handlebars.compile($("#template_stage").html());
+const template_res_player = Handlebars.compile($("#template_res_player").html());
+
 let playerIdSeed = 1;
 let players = [];
 let trainingStageIdSeed = 1;
 let trainingStages = [];
 let results = {};
 
+//trg = value in enum Training.java
 let slots = {
     9: [{por: 100, max: 2, trg: 1}],
     3: [{por: 100, max: 10, trg: 2}],
@@ -51,40 +56,13 @@ $(() => {
     });
 
     $('#add_player').click(function () {
-        const player = {
-            playerId: playerIdSeed++,
-            form: parseInt($('#new_player_form').val()),
-            stamina: parseInt($('#new_player_stamina').val()),
-            keeper: parseInt($('#new_player_keeper').val()),
-            defender: parseInt($('#new_player_defender').val()),
-            playmaker: parseInt($('#new_player_playmaker').val()),
-            winger: parseInt($('#new_player_winger').val()),
-            passing: parseInt($('#new_player_passing').val()),
-            scorer: parseInt($('#new_player_scorer').val()),
-            setPieces: parseInt($('#new_player_setPieces').val()),
-            experience: parseInt($('#new_player_experience').val()),
-            loyalty: parseInt($('#new_player_loyalty').val()),
-            motherClubBonus: parseInt($('#new_player_motherClubBonus').val()),
-            specialty: parseInt($('#new_player_specialty').val()),
-            age: parseInt($('#new_player_age').val()),
-            days: parseInt($('#new_player_days').val()),
-            inclusionWeek: parseInt($('#new_player_inclusionWeek').val()),
-            daysForNextTraining: parseInt($('#new_player_daysForNextTraining').val())
-        };
+        const player = $('#new_player').serializeArray().reduce((o, kv) => ({...o, [kv.name]: parseInt(kv.value)}), {['playerId']: playerIdSeed++});
         addPlayer(player);
         refreshPlayerTraining();
     });
 
     $('#add_trainingStage').click(function () {
-        const trainingStage = {
-            trainingStageId: trainingStageIdSeed++,
-            duration: parseInt($('#new_stage_duration').val()),
-            coach: parseInt($('#new_stage_coach').val()),
-            assistants: parseInt($('#new_stage_assistants').val()),
-            intensity: parseInt($('#new_stage_intensity').val()),
-            stamina: parseInt($('#new_stage_stamina').val()),
-            training: parseInt($('#new_stage_training').val())
-        };
+        const trainingStage = $('#new_stage').serializeArray().reduce((o, kv) => ({...o, [kv.name]: parseInt(kv.value)}), {['trainingStageId']: trainingStageIdSeed++});
         addTrainingStage(trainingStage);
         refreshPlayerTraining();
     });
@@ -94,9 +72,7 @@ $(() => {
             const split = e.id.split('_');
             const trg = parseInt(split[4]);
             const playerId = parseInt(split[5]);
-            let obj = {};
-            obj[playerId] = trg;
-            return obj;
+            return {[playerId]: trg};
         }).toArray().reduce(((r, c) => Object.assign(r, c)), {})
         ]));
 
@@ -140,8 +116,7 @@ function loadResults(results) {
 
 function addPlayerResult(player) {
     const ini = players.filter(pl => pl.playerId === player.playerId)[0];
-    const template = Handlebars.compile($("#template_res_player").html());
-    $('#div_results').append("<div class='res_player_top'>" + template(ini) + "<div class='res_player_sep'>==></div>" + template(player) + "</div>");
+    $('#div_results').append("<div class='res_player_top'>" + template_res_player(ini) + "<div class='res_player_sep'>==></div>" + template_res_player(player) + "</div>");
 }
 
 function getDate() {
@@ -155,28 +130,7 @@ function getDate() {
 
 function addPlayer(player) {
     players.push(player);
-    $("<div class=\"player b1 p5\" id=\"player_" + player.playerId + "\">\n" +
-        "    <div class=\"h tac\">Jugador " + player.playerId + "</div>\n" +
-        "    <div class=\"h\">Años: " + player.age + "</div>\n" +
-        "    <div class=\"h\">Días: " + player.days + "</div>\n" +
-        "    <div class=\"h\">Forma: " + player.form + "</div>\n" +
-        "    <div class=\"h\">Resistencia: " + player.stamina + "</div>\n" +
-        "    <div class=\"h\">Experiencia: " + player.experience + "</div>\n" +
-        "    <div class=\"h\">Fidelidad: " + player.loyalty + "</div>\n" +
-        "    <div class=\"h\">Club de origen: " + player.motherClubBonus + "</div>\n" +
-        "    <div class=\"h\">Especialidad: " + player.specialty + "</div>\n" +
-        "    <div class=\"h\">Porteria: " + player.keeper + "</div>\n" +
-        "    <div class=\"h\">Defensa: " + player.defender + "</div>\n" +
-        "    <div class=\"h\">Jugadas: " + player.playmaker + "</div>\n" +
-        "    <div class=\"h\">Lateral: " + player.winger + "</div>\n" +
-        "    <div class=\"h\">Pases: " + player.passing + "</div>\n" +
-        "    <div class=\"h\">Anotación: " + player.scorer + "</div>\n" +
-        "    <div class=\"h\">Balón Parado: " + player.setPieces + "</div>\n" +
-        "    <div class=\"h\">Semana de incorporación: " + player.inclusionWeek + "</div>\n" +
-        "    <div class=\"h\">Días para el próximo entrenamiento: " + player.daysForNextTraining + "</div>\n" +
-        "    <div class=\"p10 tac\"><label class=\"button\" onclick=\"delPlayer(" + player.playerId + ")\">Borrar Jugador</label></div>\n" +
-        "</div>\n"
-    ).appendTo($('#players'));
+    $('#players').append(template_player(player));
 }
 
 function delPlayer(playerId) {
@@ -192,17 +146,7 @@ function resetPlayers() {
 
 function addTrainingStage(trainingStage) {
     trainingStages.push(trainingStage);
-    $("<div class=\"stage b1 p5\" id=\"stage_" + trainingStage.trainingStageId + "\">\n" +
-        "    <div class=\"h tac\">Etapa " + trainingStage.trainingStageId + "</div>\n" +
-        "    <div class=\"h\">Entrenamiento: " + getTrainingName(trainingStage.training) + "</div>\n" +
-        "    <div class=\"h\">Duración: " + trainingStage.duration + "</div>\n" +
-        "    <div class=\"h\">Entrenador: " + trainingStage.coach + "</div>\n" +
-        "    <div class=\"h\">Asistentes: " + trainingStage.assistants + "</div>\n" +
-        "    <div class=\"h\">Intensidad: " + trainingStage.intensity + "</div>\n" +
-        "    <div class=\"h\">Resistencia: " + trainingStage.stamina + "</div>\n" +
-        "    <div class=\"p10 tac\"><label class=\"button\" onclick=\"delTrainingStage(" + trainingStage.trainingStageId + ")\">Borrar Etapa</label></div>\n" +
-        "</div>\n"
-    ).appendTo($('#stages'));
+    $('#stages').append(template_stage(trainingStage));
 }
 
 function delTrainingStage(trainingStageId) {
@@ -236,6 +180,10 @@ function getTrainingName(training) {
             return '';
     }
 }
+
+Handlebars.registerHelper('trainingName', function (training) {
+    return getTrainingName(training);
+})
 
 function refreshPlayerTraining() {
     let html = "";

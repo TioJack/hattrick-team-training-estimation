@@ -2,13 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>HTTE</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="manifest" href="/img/site.webmanifest">
+    <link rel="icon" href="/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js//handlebars.js"></script>
     <script src="/js/filesaver.js"></script>
-    <script src="/js/index.js"></script>
     <link href="/css/styles.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
@@ -19,5 +23,6 @@
 <th:block th:insert="section_player_training"></th:block>
 <th:block th:insert="section_results"></th:block>
 <th:block th:insert="section_templates"></th:block>
+<script src="/js/index.js"></script>
 </body>
 </html>

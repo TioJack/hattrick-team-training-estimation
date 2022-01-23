@@ -6,7 +6,6 @@
 src/main/resources/static/*.map
 src/main/resources/static/*.bundle.*
 src/main/resources/static/index.html
-src/main/resources/static/favicon.ico
 # dependencies
 /node_modules
 node

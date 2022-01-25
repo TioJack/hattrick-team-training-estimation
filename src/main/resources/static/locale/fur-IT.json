@@ -1,0 +1,12 @@
+{
+  "specialties": {
+    "none": "Nissune specialitât",
+    "technical": "Tecnic",
+    "quick": "Svelt",
+    "powerful": "Potent",
+    "unpredictable": "Imprevedibil",
+    "head_specialist": "Cjavade",
+    "resilient": "Resistent",
+    "support": "Sostegn"
+  }
+}

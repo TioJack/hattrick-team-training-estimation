@@ -1,0 +1,18 @@
+{
+  "leadership": "Liderlik",
+  "leadership_abbr": "LD",
+  "experience": "Təcrübə",
+  "experience_abbr": "Xp",
+  "stamina": "Kondisyon",
+  "stamina_abbr": "Kon",
+  "specialties": {
+    "none": "Xüsusiyyəti yoxdur",
+    "technical": "Texnikalı",
+    "quick": "Cəld",
+    "powerful": "Güclü",
+    "unpredictable": "Gözlənilməz",
+    "head_specialist": "Başla oynayan",
+    "resilient": "Elastik",
+    "support": "Dəstək"
+  }
+}

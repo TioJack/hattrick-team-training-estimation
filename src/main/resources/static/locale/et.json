@@ -1,0 +1,22 @@
+{
+  "defending": "Kaitsmine",
+  "experience": "Kogemus",
+  "stamina": "Vastupidavus",
+  "form": "Vorm",
+  "loyalty": "Lojaalsus",
+  "specialty": "Erioskus",
+  "player": "Mängija",
+  "player_abbr": "Mängija",
+  "age": "Vanus",
+  "age_abbr": "Vanus",
+  "specialties": {
+    "none": "Erioskuseta",
+    "technical": "Tehniline",
+    "quick": "Kiire",
+    "powerful": "Jõuline",
+    "unpredictable": "Ettearvamatu",
+    "head_specialist": "Peamäng",
+    "resilient": "Vastupidav",
+    "support": "Meeskonnamängija"
+  }
+}

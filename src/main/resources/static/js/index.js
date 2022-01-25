@@ -2,8 +2,8 @@ const template_player = Handlebars.compile($("#template_player").html());
 const template_stage = Handlebars.compile($("#template_stage").html());
 const template_res_player = Handlebars.compile($("#template_res_player").html());
 
-let locale = 'es-Es';
-let locale_data = {};
+let locale = {};
+let defaultLocale = {};
 let playerIdSeed = 1;
 let players = [];
 let trainingStageIdSeed = 1;
@@ -22,7 +22,8 @@ let slots = {
 }
 
 $(() => {
-    loadlocale();
+    loadDefaultLocale();
+    loadLocale($('#language').val());
 
     $('#save').click(function () {
         const save = {
@@ -109,22 +110,24 @@ $(() => {
 
             const players = foxtrick_players.split('@@');
             const header = players[0].split('##');
-            const index_player = header.findIndex(h => h === locale_data.player_abbr);
-            const index_age = header.findIndex(h => h === locale_data.age_abbr);
-            const index_form = header.findIndex(h => h === locale_data.form_abbr);
-            const index_stamina = header.findIndex(h => h === locale_data.stamina_abbr);
-            const index_leadership = header.findIndex(h => h === locale_data.leadership_abbr);
-            const index_experience = header.findIndex(h => h === locale_data.experience_abbr);
-            const index_loyalty = header.findIndex(h => h === locale_data.loyalty_abbr);
-            const index_motherClubBonus = header.findIndex(h => h === locale_data.motherClubBonus_abbr);
-            const index_specialty = header.findIndex(h => h === locale_data.specialty_abbr);
-            const index_keeper = header.findIndex(h => h === locale_data.keeper_abbr);
-            const index_defender = header.findIndex(h => h === locale_data.defending_abbr);
-            const index_playmaker = header.findIndex(h => h === locale_data.playmaking_abbr);
-            const index_winger = header.findIndex(h => h === locale_data.winger_abbr);
-            const index_passing = header.findIndex(h => h === locale_data.passing_abbr);
-            const index_scorer = header.findIndex(h => h === locale_data.scoring_abbr);
-            const index_setPieces = header.findIndex(h => h === locale_data.set_pieces_abbr);
+            const index_player = header.findIndex(h => h === (locale.player_abbr ? locale.player_abbr : defaultLocale.player_abbr));
+            const index_age = header.findIndex(h => h === (locale.age_abbr ? locale.age_abbr : defaultLocale.age_abbr));
+            const index_form = header.findIndex(h => h === (locale.form_abbr ? locale.form_abbr : defaultLocale.form_abbr));
+            const index_stamina = header.findIndex(h => h === (locale.stamina_abbr ? locale.stamina_abbr : defaultLocale.stamina_abbr));
+            const index_leadership = header.findIndex(h => h === (locale.leadership_abbr ? locale.leadership_abbr : defaultLocale.leadership_abbr));
+            const index_experience = header.findIndex(h => h === (locale.experience_abbr ? locale.experience_abbr : defaultLocale.experience_abbr));
+            const index_loyalty = header.findIndex(h => h === (locale.loyalty_abbr ? locale.loyalty_abbr : defaultLocale.loyalty_abbr));
+            const index_motherClubBonus = header.findIndex(h => h === (locale.motherClubBonus_abbr ? locale.motherClubBonus_abbr : defaultLocale.motherClubBonus_abbr));
+            const index_specialty = header.findIndex(h => h === (locale.specialty_abbr ? locale.specialty_abbr : defaultLocale.specialty_abbr));
+            const index_keeper = header.findIndex(h => h === (locale.keeper_abbr ? locale.keeper_abbr : defaultLocale.keeper_abbr));
+            const index_defender = header.findIndex(h => h === (locale.defending_abbr ? locale.defending_abbr : defaultLocale.defending_abbr));
+            const index_playmaker = header.findIndex(h => h === (locale.playmaking_abbr ? locale.playmaking_abbr : defaultLocale.playmaking_abbr));
+            const index_winger = header.findIndex(h => h === (locale.winger_abbr ? locale.winger_abbr : defaultLocale.winger_abbr));
+            const index_passing = header.findIndex(h => h === (locale.passing_abbr ? locale.passing_abbr : defaultLocale.passing_abbr));
+            const index_scorer = header.findIndex(h => h === (locale.scoring_abbr ? locale.scoring_abbr : defaultLocale.scoring_abbr));
+            const index_setPieces = header.findIndex(function (h, index) {
+                return h === (locale.set_pieces_abbr ? locale.set_pieces_abbr : defaultLocale.set_pieces_abbr) && index > 5
+            });
 
             players.shift();
             players.forEach(player_text => {
@@ -159,6 +162,10 @@ $(() => {
         refreshPlayerTraining();
     });
 
+    $('#language').change(function () {
+        loadLocale($('#language').val());
+    });
+
 });
 
 function getDaysForNextTraining() {
@@ -169,8 +176,8 @@ function getDaysForNextTraining() {
 
 function getSpecialty(text) {
     if (text.length > 3) {
-        for (let sp in locale_data.specialties) {
-            if (locale_data.specialties[sp] === text) {
+        for (let sp in locale.specialties) {
+            if (locale.specialties[sp] === text) {
                 return specialties[sp];
             }
         }
@@ -178,14 +185,26 @@ function getSpecialty(text) {
     return specialties.none;
 }
 
-function loadlocale() {
+function loadLocale(code) {
     $.ajax({
-        url: '/locale/es-ES.json',
+        url: '/locale/' + code + '.json',
         type: 'GET',
         dataType: 'json',
         async: true,
         success: function (data) {
-            locale_data = data;
+            locale = data;
+        }
+    });
+}
+
+function loadDefaultLocale() {
+    $.ajax({
+        url: '/locale/en-GB.json',
+        type: 'GET',
+        dataType: 'json',
+        async: true,
+        success: function (data) {
+            defaultLocale = data;
         }
     });
 }

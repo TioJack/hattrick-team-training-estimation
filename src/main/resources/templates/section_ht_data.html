@@ -1,0 +1,9 @@
+<section id="section_ht_data">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const specialties = {[# th:each = "sp : ${T(net.ddns.tiojack.htte.model.Specialty).values()}"]
+            [[${#strings.toLowerCase(sp)}]]:[[${sp.value}]],
+        [/]}
+        /*]]>*/
+    </script>
+</section>

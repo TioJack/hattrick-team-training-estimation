@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Specialty {
-    NO_SPECIALTY(0),
+    NONE(0),
     TECHNICAL(1),
     QUICK(2),
     POWERFUL(3),

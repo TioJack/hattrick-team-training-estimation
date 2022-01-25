@@ -26,6 +26,7 @@ public class Player implements Serializable {
     double scorer;
     double setPieces;
     double experience;
+    double leadership;
     double loyalty;
     boolean motherClubBonus;
     Specialty specialty;

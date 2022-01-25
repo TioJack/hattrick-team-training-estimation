@@ -2,6 +2,8 @@ const template_player = Handlebars.compile($("#template_player").html());
 const template_stage = Handlebars.compile($("#template_stage").html());
 const template_res_player = Handlebars.compile($("#template_res_player").html());
 
+let locale = 'es-Es';
+let locale_data = {};
 let playerIdSeed = 1;
 let players = [];
 let trainingStageIdSeed = 1;
@@ -20,6 +22,8 @@ let slots = {
 }
 
 $(() => {
+    loadlocale();
+
     $('#save').click(function () {
         const save = {
             version: 1,
@@ -95,7 +99,96 @@ $(() => {
             }
         });
     });
+
+    $('#import_players').click(function () {
+        try {
+            const foxtrick_players = $('#foxtrick_textarea').val()
+                .replace(/\[table\]|\[\/table\]|\[tr\]|\[th\]|\[td\]/g, '')
+                .replace(/\[\/th\]|\[\/td\]/g, '##')
+                .replace(/\[\/tr\]/g, '@@');
+
+            const players = foxtrick_players.split('@@');
+            const header = players[0].split('##');
+            const index_player = header.findIndex(h => h === locale_data.player_abbr);
+            const index_age = header.findIndex(h => h === locale_data.age_abbr);
+            const index_form = header.findIndex(h => h === locale_data.form_abbr);
+            const index_stamina = header.findIndex(h => h === locale_data.stamina_abbr);
+            const index_leadership = header.findIndex(h => h === locale_data.leadership_abbr);
+            const index_experience = header.findIndex(h => h === locale_data.experience_abbr);
+            const index_loyalty = header.findIndex(h => h === locale_data.loyalty_abbr);
+            const index_motherClubBonus = header.findIndex(h => h === locale_data.motherClubBonus_abbr);
+            const index_specialty = header.findIndex(h => h === locale_data.specialty_abbr);
+            const index_keeper = header.findIndex(h => h === locale_data.keeper_abbr);
+            const index_defender = header.findIndex(h => h === locale_data.defending_abbr);
+            const index_playmaker = header.findIndex(h => h === locale_data.playmaking_abbr);
+            const index_winger = header.findIndex(h => h === locale_data.winger_abbr);
+            const index_passing = header.findIndex(h => h === locale_data.passing_abbr);
+            const index_scorer = header.findIndex(h => h === locale_data.scoring_abbr);
+            const index_setPieces = header.findIndex(h => h === locale_data.set_pieces_abbr);
+
+            players.shift();
+            players.forEach(player_text => {
+                if (player_text.length > 10) {
+                    const data = player_text.split('##');
+                    const player = {
+                        playerId: parseInt(data[index_player].substring(data[index_player].indexOf('=') + 1, data[index_player].indexOf(']'))),
+                        age: parseInt(data[index_age].split('.')[0]),
+                        days: parseInt(data[index_age].split('.')[1]),
+                        form: parseInt(data[index_form]),
+                        stamina: parseInt(data[index_stamina]),
+                        leadership: parseInt(data[index_leadership]),
+                        experience: parseInt(data[index_experience]),
+                        loyalty: parseInt(data[index_loyalty]),
+                        motherClubBonus: parseInt(data[index_motherClubBonus].length),
+                        specialty: getSpecialty(data[index_specialty].split('\n')[0]),
+                        keeper: parseInt(data[index_keeper]),
+                        defender: parseInt(data[index_defender]),
+                        playmaker: parseInt(data[index_playmaker]),
+                        winger: parseInt(data[index_winger]),
+                        passing: parseInt(data[index_passing]),
+                        scorer: parseInt(data[index_scorer]),
+                        setPieces: parseInt(data[index_setPieces]),
+                        inclusionWeek: 1,
+                        daysForNextTraining: getDaysForNextTraining()
+                    };
+                    addPlayer(player);
+                }
+            });
+        } catch (e) {
+        }
+        refreshPlayerTraining();
+    });
+
 });
+
+function getDaysForNextTraining() {
+    let friday = moment().day(5).startOf('day');
+    let today = moment().startOf('day');
+    return friday.diff(today, 'days');
+}
+
+function getSpecialty(text) {
+    if (text.length > 3) {
+        for (let sp in locale_data.specialties) {
+            if (locale_data.specialties[sp] === text) {
+                return specialties[sp];
+            }
+        }
+    }
+    return specialties.none;
+}
+
+function loadlocale() {
+    $.ajax({
+        url: '/locale/es-ES.json',
+        type: 'GET',
+        dataType: 'json',
+        async: true,
+        success: function (data) {
+            locale_data = data;
+        }
+    });
+}
 
 function loadResults(results) {
     let weeks = Object.keys(results);
@@ -205,7 +298,6 @@ function refreshPlayerTraining() {
                 }
             });
             html += "</td>";
-            //html += "<td>" + player.playerId + "_" + stage.trainingStageId + "</td>";
         });
         html += "</tr>";
     });
@@ -224,7 +316,6 @@ function refreshPlayerTraining() {
         if (item.target.checked) {
             $("[id^=" + same_player_slot_id + "][id$=_" + playerId + "]:not(:checked)").prop("disabled", true);
         } else {
-            //$("[id^=" + same_player_slot_id + "][id$=_" + playerId + "]:disabled").prop("disabled", false);
             $("[id^=" + same_player_slot_id + "][id$=_" + playerId + "]:disabled").each(function (item, element) {
                 const split = element.id.split('_');
                 const trainingStageId = parseInt(split[1]);

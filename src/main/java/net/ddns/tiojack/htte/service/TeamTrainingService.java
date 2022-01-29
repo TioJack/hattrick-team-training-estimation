@@ -1,9 +1,13 @@
 package net.ddns.tiojack.htte.service;
 
 import lombok.RequiredArgsConstructor;
+import net.ddns.tiojack.htte.model.MatchDetail;
 import net.ddns.tiojack.htte.model.Player;
 import net.ddns.tiojack.htte.model.PlayerTrainingRQ;
+import net.ddns.tiojack.htte.model.SideMatch;
 import net.ddns.tiojack.htte.model.Skill;
+import net.ddns.tiojack.htte.model.Tactic;
+import net.ddns.tiojack.htte.model.TeamAttitude;
 import net.ddns.tiojack.htte.model.TeamTrainingRQ;
 import net.ddns.tiojack.htte.model.TeamTrainingRS;
 import net.ddns.tiojack.htte.model.Training;
@@ -20,12 +24,15 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
+import static net.ddns.tiojack.htte.model.TeamConfidence.WONDERFUL;
+import static net.ddns.tiojack.htte.model.TeamSpirit.PARADISE_ON_EARTH;
 
 @Service
 @RequiredArgsConstructor
 public class TeamTrainingService {
 
     private final PlayerTrainingService playerTrainingService;
+    private final PlayerRatingService playerRatingService;
 
     public TeamTrainingRS getTeamTraining(final TeamTrainingRQ teamTrainingRQ) {
         final AtomicInteger week = new AtomicInteger(0);
@@ -40,7 +47,21 @@ public class TeamTrainingService {
         final Map<Integer, List<Player>> weekPlayers = new HashMap<>();
         weeks.forEach((key, value) -> weekPlayers.put(key, this.getPlayers(key, value, weekPlayers.getOrDefault(key - 1, emptyList()), teamTrainingRQ)));
 
-        return TeamTrainingRS.builder().weekPlayers(weekPlayers).build();
+
+        final MatchDetail matchDetail = MatchDetail.builder()
+                .sideMatch(SideMatch.HOME)
+                .teamConfidence(WONDERFUL)
+                .styleOfPlay(0)
+                .tactic(Tactic.NORMAL)
+                .teamAttitude(TeamAttitude.PIN)
+                .teamSpirit(PARADISE_ON_EARTH)
+                .teamSubSpirit(0.0)
+                .build();
+
+        return TeamTrainingRS.builder()
+                .weekPlayers(weekPlayers)
+                .weekRating(this.playerRatingService.getRatings(weekPlayers.get(1).get(0), matchDetail))
+                .build();
     }
 
     private List<Player> getPlayers(final int week, final int trainingStageId, final List<Player> previousWeekPlayers, final TeamTrainingRQ teamTrainingRQ) {

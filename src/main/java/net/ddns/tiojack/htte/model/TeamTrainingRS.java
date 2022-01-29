@@ -23,8 +23,11 @@ public class TeamTrainingRS implements Serializable {
     // <week,players>
     Map<Integer, List<Player>> weekPlayers;
 
+    Map<Position, Ratings> weekRating;
+
     private TeamTrainingRS(final TeamTrainingRSBuilder builder) {
         this.weekPlayers = Collections.unmodifiableMap(builder.weekPlayers);
+        this.weekRating = Collections.unmodifiableMap(builder.weekRating);
     }
 
     @JsonPOJOBuilder(withPrefix = "")

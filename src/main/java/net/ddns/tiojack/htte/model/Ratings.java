@@ -26,4 +26,11 @@ public class Ratings implements Serializable {
     public static class RatingsBuilder {
     }
 
+    public int getHatStats() {
+        return HTfloat2int(this.leftDefense) + HTfloat2int(this.centralDefense) + HTfloat2int(this.rightDefense) + HTfloat2int(this.midfield) * 3 + HTfloat2int(this.leftAttack) + HTfloat2int(this.centralAttack) + HTfloat2int(this.rightAttack);
+    }
+
+    private static int HTfloat2int(final double x) {
+        return (int) (((x - 1.0f) * 4.0f) + 1.0f);
+    }
 }

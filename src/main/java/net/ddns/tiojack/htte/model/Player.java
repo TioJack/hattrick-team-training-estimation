@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Map;
 
 @Builder
-@Value
+@Data
 @JsonDeserialize(builder = Player.PlayerBuilder.class)
 public class Player implements Serializable {
 
@@ -34,6 +35,7 @@ public class Player implements Serializable {
     int days;
     int inclusionWeek;
     int daysForNextTraining;
+    Map<Position, Ratings> ratings;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class PlayerBuilder {

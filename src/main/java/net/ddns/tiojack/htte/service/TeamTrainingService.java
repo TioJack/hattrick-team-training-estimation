@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.ddns.tiojack.htte.model.MatchDetail;
 import net.ddns.tiojack.htte.model.Player;
 import net.ddns.tiojack.htte.model.PlayerTrainingRQ;
+import net.ddns.tiojack.htte.model.Ratings;
 import net.ddns.tiojack.htte.model.SideMatch;
 import net.ddns.tiojack.htte.model.Skill;
 import net.ddns.tiojack.htte.model.Tactic;
@@ -25,7 +26,7 @@ import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
 import static net.ddns.tiojack.htte.model.TeamConfidence.WONDERFUL;
-import static net.ddns.tiojack.htte.model.TeamSpirit.PARADISE_ON_EARTH;
+import static net.ddns.tiojack.htte.model.TeamSpirit.WALKING_ON_CLOUDS;
 
 @Service
 @RequiredArgsConstructor
@@ -44,34 +45,45 @@ public class TeamTrainingService {
                 )
         );
 
-        final Map<Integer, List<Player>> weekPlayers = new HashMap<>();
-        weeks.forEach((key, value) -> weekPlayers.put(key, this.getPlayers(key, value, weekPlayers.getOrDefault(key - 1, emptyList()), teamTrainingRQ)));
-
-
         final MatchDetail matchDetail = MatchDetail.builder()
                 .sideMatch(SideMatch.HOME)
                 .teamConfidence(WONDERFUL)
                 .styleOfPlay(0)
                 .tactic(Tactic.NORMAL)
                 .teamAttitude(TeamAttitude.PIN)
-                .teamSpirit(PARADISE_ON_EARTH)
+                .teamSpirit(WALKING_ON_CLOUDS)
                 .teamSubSpirit(0.0)
                 .build();
 
+        final Map<Integer, List<Player>> weekPlayers = new HashMap<>();
+        weeks.forEach((key, value) -> {
+            final List<Player> players = this.getPlayers(key, value, weekPlayers.getOrDefault(key - 1, emptyList()), teamTrainingRQ, matchDetail);
+            weekPlayers.put(key, players);
+
+            final List<Ratings> collect = players.stream().flatMap(player -> player.getRatings().values().stream()).sorted(Comparator.comparingDouble(Ratings::getMidfield).reversed()).collect(Collectors.toList());
+
+            final int f = 1;
+        });
+
         return TeamTrainingRS.builder()
                 .weekPlayers(weekPlayers)
-                .weekRating(this.playerRatingService.getRatings(weekPlayers.get(1).get(0), matchDetail))
                 .build();
     }
 
-    private List<Player> getPlayers(final int week, final int trainingStageId, final List<Player> previousWeekPlayers, final TeamTrainingRQ teamTrainingRQ) {
+    private List<Player> getPlayers(final int week, final int trainingStageId, final List<Player> previousWeekPlayers, final TeamTrainingRQ teamTrainingRQ, final MatchDetail matchDetail) {
         final TrainingStage trainingStage = this.getTrainingStage(teamTrainingRQ, trainingStageId);
         return Stream.concat(
                         teamTrainingRQ.getPlayers().values().stream().filter(player -> player.getInclusionWeek() == week).map(player -> this.applyWeekChanges(player, player.getDaysForNextTraining(), trainingStage)),
                         previousWeekPlayers.stream().map(player -> this.applyWeekChanges(player, 7, trainingStage)))
                 .map(player -> this.applyTraining(player, trainingStage, teamTrainingRQ.getStagePlayerTraining().get(trainingStageId).getOrDefault(player.getPlayerId(), Training.NO_TRAINING)))
+                .map(player -> this.calcRating(player, matchDetail))
                 .sorted(Comparator.comparingInt(Player::getPlayerId))
                 .collect(Collectors.toList());
+    }
+
+    private Player calcRating(final Player player, final MatchDetail matchDetail) {
+        player.setRatings(this.playerRatingService.getRatings(player, matchDetail));
+        return player;
     }
 
     private Player applyWeekChanges(final Player player, final int addDays, final TrainingStage trainingStage) {

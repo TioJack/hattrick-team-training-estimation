@@ -1,21 +1,16 @@
 package net.ddns.tiojack.htte.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
 @Builder
 @Value
-@JsonDeserialize(builder = Lineup.LineupBuilder.class)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Jacksonized
 public class Lineup implements Serializable {
 
     private static final long serialVersionUID = 5618198214082859961L;
@@ -26,38 +21,24 @@ public class Lineup implements Serializable {
     List<LineupPlayer> penaltyTakers;
     MatchDetail matchDetail;
 
-    private Lineup(final Lineup.LineupBuilder builder) {
-        this.fieldPlayers = Collections.unmodifiableList(builder.fieldPlayers);
-        this.benchPlayers = Collections.unmodifiableList(builder.benchPlayers);
-        this.penaltyTakers = Collections.unmodifiableList(builder.penaltyTakers);
-        this.matchDetail = builder.matchDetail;
-    }
-
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class LineupBuilder {
-        public Lineup build() {
-            return new Lineup(this);
-        }
-    }
-
     @JsonIgnore
     public int getNumberCentralDefender() {
         return (int) this.fieldPlayers.stream()
-                .filter(lineupPlayer -> lineupPlayer.getRole().getAbr().equals("CD"))
+                .filter(lineupPlayer -> lineupPlayer.getRole().getRoleGroup() == RoleGroup.CENTRAL_DEFENDER)
                 .count();
     }
 
     @JsonIgnore
     public int getNumberInnerMidfield() {
         return (int) this.fieldPlayers.stream()
-                .filter(lineupPlayer -> lineupPlayer.getRole().getAbr().equals("IM"))
+                .filter(lineupPlayer -> lineupPlayer.getRole().getRoleGroup() == RoleGroup.INNER_MIDFIELD)
                 .count();
     }
 
     @JsonIgnore
     public int getNumberForward() {
         return (int) this.fieldPlayers.stream()
-                .filter(lineupPlayer -> lineupPlayer.getRole().getAbr().equals("FW"))
+                .filter(lineupPlayer -> lineupPlayer.getRole().getRoleGroup() == RoleGroup.FORWARD)
                 .count();
     }
 

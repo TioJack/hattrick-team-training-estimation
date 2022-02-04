@@ -10,7 +10,7 @@ import net.ddns.tiojack.htte.model.RatingConfigProp;
 import net.ddns.tiojack.htte.model.RatingConfigSection;
 import net.ddns.tiojack.htte.model.RatingZone;
 import net.ddns.tiojack.htte.model.Ratings;
-import net.ddns.tiojack.htte.model.Role;
+import net.ddns.tiojack.htte.model.RoleGroup;
 import net.ddns.tiojack.htte.model.Skill;
 import net.ddns.tiojack.htte.model.Tactic;
 import org.springframework.stereotype.Service;
@@ -120,7 +120,7 @@ public class RatingService {
         retVal = this.getPlayerSkillStrength(lineupPlayer.getPlayer(), skill);
         retVal *= props.get(lineupPlayer.getRatingConfigProp());
         retVal *= this.getStaminaEffect(lineupPlayer.getPlayer().getStamina(), minute, 0, lineup.getMatchDetail().getTactic() == Tactic.PRESSING);
-        retVal *= this.adjustForCrowding(lineup, lineupPlayer.getRole());
+        retVal *= this.adjustForCrowding(lineup, lineupPlayer.getRole().getRoleGroup());
         return retVal;
     }
 
@@ -160,25 +160,25 @@ public class RatingService {
         return Math.max(10, Math.min(100, energy)) / 100.0;
     }
 
-    private double adjustForCrowding(final Lineup lineup, final Role role) {
+    private double adjustForCrowding(final Lineup lineup, final RoleGroup roleGroup) {
         final Map<RatingConfigProp, Double> props = RatingConfig.config.get(PLAYERSTRENGTH).get(general);
         double weight = 1;
-        switch (role.getAbr()) {
-            case "CD":
+        switch (roleGroup) {
+            case CENTRAL_DEFENDER:
                 if (lineup.getNumberCentralDefender() == 2) {
                     weight = props.get(twoCdMulti);
                 } else if (lineup.getNumberCentralDefender() == 3) {
                     weight = props.get(threeCdMulti);
                 }
                 break;
-            case "IM":
+            case INNER_MIDFIELD:
                 if (lineup.getNumberInnerMidfield() == 2) {
                     weight = props.get(twoMfMulti);
                 } else if (lineup.getNumberInnerMidfield() == 3) {
                     weight = props.get(threeMfMulti);
                 }
                 break;
-            case "FW":
+            case FORWARD:
                 if (lineup.getNumberForward() == 2) {
                     weight = props.get(twoFwMulti);
                 } else if (lineup.getNumberForward() == 3) {

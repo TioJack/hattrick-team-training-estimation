@@ -50,4 +50,81 @@
             <div class="h">Balón Parado: {{setPieces}}</div>
         </div>
     </div>
+    <div id="template_formation_rating">
+        <div class="b1 p5">
+            <div class="h tac">{{title}}</div>
+            <div class="fr">
+                <table>
+                    <tr>
+                        <td>{{rating.rightDefense}}</td>
+                        <td>{{rating.centralDefense}}</td>
+                        <td>{{rating.leftDefense}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>{{rating.midfield}}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>{{rating.rightAttack}}</td>
+                        <td>{{rating.centralAttack}}</td>
+                        <td>{{rating.leftAttack}}</td>
+                    </tr>
+                </table>
+                <table class="bw">
+                    <tr>
+                        <td class="bw">defensa:</td>
+                        <td class="bw">{{rating.defense}}</td>
+                        <td class="bw">&nbsp;</td>
+                        <td class="bw">HatStats:</td>
+                        <td class="bw">{{rating.hatStats}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bw">medio:</td>
+                        <td class="bw">{{rating.midfield3}}</td>
+                        <td class="bw">&nbsp;</td>
+                        <td class="bw">PStats:</td>
+                        <td class="bw">{{rating.peasoStats}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bw">ataque:</td>
+                        <td class="bw">{{rating.attack}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <td class="bw"></td>
+                    <td class="bw"></td>
+                    <td>{{player_on_position players 'KP'}}</td>
+                    <td class="bw"></td>
+                    <td class="bw"></td>
+                </tr>
+                <tr>
+                    <td>{{player_on_position players 'RB'}}</td>
+                    <td>{{player_on_position players 'RCD'}}</td>
+                    <td>{{player_on_position players 'MCD'}}</td>
+                    <td>{{player_on_position players 'LCD'}}</td>
+                    <td>{{player_on_position players 'LB'}}</td>
+                </tr>
+                <tr>
+                    <td>{{player_on_position players 'RW'}}</td>
+                    <td>{{player_on_position players 'RIM'}}</td>
+                    <td>{{player_on_position players 'MIM'}}</td>
+                    <td>{{player_on_position players 'LIM'}}</td>
+                    <td>{{player_on_position players 'LW'}}</td>
+                </tr>
+                <tr>
+                    <td class="bw"></td>
+                    <td>{{player_on_position players 'RFW'}}</td>
+                    <td>{{player_on_position players 'MFW'}}</td>
+                    <td>{{player_on_position players 'LFW'}}</td>
+                    <td class="bw"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    </div>
 </section>

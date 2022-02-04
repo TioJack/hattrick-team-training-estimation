@@ -1,17 +1,15 @@
 package net.ddns.tiojack.htte.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 import java.io.Serializable;
-import java.util.Map;
 
 @Builder
-@Data
-@JsonDeserialize(builder = Player.PlayerBuilder.class)
+@Value
+@Jacksonized
 public class Player implements Serializable {
 
     private static final long serialVersionUID = 7365552274125573163L;
@@ -35,11 +33,6 @@ public class Player implements Serializable {
     int days;
     int inclusionWeek;
     int daysForNextTraining;
-    Map<Position, Ratings> ratings;
-
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class PlayerBuilder {
-    }
 
     @JsonIgnore
     public double getSkill(final Skill skill) {

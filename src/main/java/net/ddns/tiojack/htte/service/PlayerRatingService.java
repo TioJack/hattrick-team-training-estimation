@@ -2,34 +2,51 @@ package net.ddns.tiojack.htte.service;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
+import net.ddns.tiojack.htte.model.Formation;
 import net.ddns.tiojack.htte.model.LineMatch;
 import net.ddns.tiojack.htte.model.MatchDetail;
 import net.ddns.tiojack.htte.model.Player;
+import net.ddns.tiojack.htte.model.PlayerRating;
 import net.ddns.tiojack.htte.model.Position;
 import net.ddns.tiojack.htte.model.Ratings;
+import net.ddns.tiojack.htte.model.RoleGroup;
 import net.ddns.tiojack.htte.model.Skill;
 import net.ddns.tiojack.htte.model.Specialty;
 import net.ddns.tiojack.htte.model.ZoneMatch;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
+import static net.ddns.tiojack.htte.model.ZoneMatch.CENTRAL_ATTACK;
+import static net.ddns.tiojack.htte.model.ZoneMatch.CENTRAL_DEFENSE;
+import static net.ddns.tiojack.htte.model.ZoneMatch.LEFT_ATTACK;
+import static net.ddns.tiojack.htte.model.ZoneMatch.LEFT_DEFENSE;
+import static net.ddns.tiojack.htte.model.ZoneMatch.MIDFIELD;
+import static net.ddns.tiojack.htte.model.ZoneMatch.RIGHT_ATTACK;
+import static net.ddns.tiojack.htte.model.ZoneMatch.RIGHT_DEFENSE;
 
 @Service
 @RequiredArgsConstructor
 public class PlayerRatingService {
 
-    public Map<Position, Ratings> getRatings(final Player player, final MatchDetail matchDetail) {
-        return Arrays.stream(Position.values()).collect(Collectors.toMap(position -> position, position -> Ratings.builder()
-                .rightDefense(this.getCoefficientByPositionAndZone(player, position, ZoneMatch.RIGHT_DEFENSE, matchDetail))
-                .centralDefense(this.getCoefficientByPositionAndZone(player, position, ZoneMatch.CENTRAL_DEFENSE, matchDetail))
-                .leftDefense(this.getCoefficientByPositionAndZone(player, position, ZoneMatch.LEFT_DEFENSE, matchDetail))
-                .midfield(this.getCoefficientByPositionAndZone(player, position, ZoneMatch.MIDFIELD, matchDetail))
-                .rightAttack(this.getCoefficientByPositionAndZone(player, position, ZoneMatch.RIGHT_ATTACK, matchDetail))
-                .centralAttack(this.getCoefficientByPositionAndZone(player, position, ZoneMatch.CENTRAL_ATTACK, matchDetail))
-                .leftAttack(this.getCoefficientByPositionAndZone(player, position, ZoneMatch.LEFT_ATTACK, matchDetail))
-                .build()));
+    public List<PlayerRating> getRatings(final Player player, final MatchDetail matchDetail, final Formation formation) {
+        return Arrays.stream(Position.values()).map(position -> PlayerRating.builder()
+                        .playerId(player.getPlayerId())
+                        .position(position)
+                        .rating(Ratings.builder()
+                                .rightDefense(this.getCoefficientByPositionAndZone(player, position, RIGHT_DEFENSE, matchDetail, formation))
+                                .centralDefense(this.getCoefficientByPositionAndZone(player, position, CENTRAL_DEFENSE, matchDetail, formation))
+                                .leftDefense(this.getCoefficientByPositionAndZone(player, position, LEFT_DEFENSE, matchDetail, formation))
+                                .midfield(this.getCoefficientByPositionAndZone(player, position, MIDFIELD, matchDetail, formation))
+                                .rightAttack(this.getCoefficientByPositionAndZone(player, position, RIGHT_ATTACK, matchDetail, formation))
+                                .centralAttack(this.getCoefficientByPositionAndZone(player, position, CENTRAL_ATTACK, matchDetail, formation))
+                                .leftAttack(this.getCoefficientByPositionAndZone(player, position, LEFT_ATTACK, matchDetail, formation))
+                                .build())
+                        .build())
+                .collect(toList());
     }
 
     private static double round(final double input) {
@@ -51,7 +68,7 @@ public class PlayerRatingService {
     }
 
     private static final Map<ZoneMatch, Map<Position, Map<Skill, Double>>> config = ImmutableMap.<ZoneMatch, Map<Position, Map<Skill, Double>>>builder()
-            .put(ZoneMatch.RIGHT_DEFENSE, ImmutableMap.<Position, Map<Skill, Double>>builder()
+            .put(RIGHT_DEFENSE, ImmutableMap.<Position, Map<Skill, Double>>builder()
                     .put(Position.KP, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.GOALKEEPING, 0.15555)
                             .put(Skill.DEFENDING, 0.06375)
@@ -71,16 +88,16 @@ public class PlayerRatingService {
                     .put(Position.RCDTW, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.20655)
                             .build())
-                    .put(Position.RWB, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RB, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.2346)
                             .build())
-                    .put(Position.RWBO, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RBO, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.1887)
                             .build())
-                    .put(Position.RWBTM, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RBTM, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.19125)
                             .build())
-                    .put(Position.RWBD, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RBD, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.255)
                             .build())
                     .put(Position.MIM, ImmutableMap.<Skill, Double>builder()
@@ -146,28 +163,28 @@ public class PlayerRatingService {
                     .put(Position.LCDTW, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.10422218500000001)
                             .build())
-                    .put(Position.RWB, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RB, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.059111090000000005)
                             .build())
-                    .put(Position.RWBO, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RBO, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.054444425000000005)
                             .build())
-                    .put(Position.RWBTM, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RBTM, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.10888885000000001)
                             .build())
-                    .put(Position.RWBD, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RBD, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.066888865)
                             .build())
-                    .put(Position.LWB, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LB, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.059111090000000005)
                             .build())
-                    .put(Position.LWBO, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LBO, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.054444425000000005)
                             .build())
-                    .put(Position.LWBTM, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LBTM, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.10888885000000001)
                             .build())
-                    .put(Position.LWBD, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LBD, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.066888865)
                             .build())
                     .put(Position.MIM, ImmutableMap.<Skill, Double>builder()
@@ -248,16 +265,16 @@ public class PlayerRatingService {
                     .put(Position.LCDTW, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.20655)
                             .build())
-                    .put(Position.LWB, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LB, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.2346)
                             .build())
-                    .put(Position.LWBO, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LBO, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.1887)
                             .build())
-                    .put(Position.LWBTM, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LBTM, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.19125)
                             .build())
-                    .put(Position.LWBD, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LBD, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.DEFENDING, 0.255)
                             .build())
                     .put(Position.MIM, ImmutableMap.<Skill, Double>builder()
@@ -319,28 +336,28 @@ public class PlayerRatingService {
                     .put(Position.LCDTW, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.PLAY_MAKING, 0.016649999999999998)
                             .build())
-                    .put(Position.RWB, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RB, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.PLAY_MAKING, 0.016649999999999998)
                             .build())
-                    .put(Position.RWBO, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RBO, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.PLAY_MAKING, 0.0222)
                             .build())
-                    .put(Position.RWBD, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RBD, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.PLAY_MAKING, 0.0111)
                             .build())
-                    .put(Position.RWBTM, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RBTM, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.PLAY_MAKING, 0.0222)
                             .build())
-                    .put(Position.LWB, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LB, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.PLAY_MAKING, 0.016649999999999998)
                             .build())
-                    .put(Position.LWBO, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LBO, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.PLAY_MAKING, 0.0222)
                             .build())
-                    .put(Position.LWBD, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LBD, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.PLAY_MAKING, 0.0111)
                             .build())
-                    .put(Position.LWBTM, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LBTM, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.PLAY_MAKING, 0.0222)
                             .build())
                     .put(Position.MIM, ImmutableMap.<Skill, Double>builder()
@@ -507,16 +524,16 @@ public class PlayerRatingService {
                     .put(Position.RCDTW, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.WINGER, 0.04966)
                             .build())
-                    .put(Position.RWB, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RB, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.WINGER, 0.11269)
                             .build())
-                    .put(Position.RWBO, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RBO, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.WINGER, 0.13179)
                             .build())
-                    .put(Position.RWBTM, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RBTM, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.WINGER, 0.06684999999999999)
                             .build())
-                    .put(Position.RWBD, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.RBD, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.WINGER, 0.08595)
                             .build())
                     .build())
@@ -702,33 +719,57 @@ public class PlayerRatingService {
                     .put(Position.LCDTW, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.WINGER, 0.04966)
                             .build())
-                    .put(Position.LWB, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LB, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.WINGER, 0.11269)
                             .build())
-                    .put(Position.LWBO, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LBO, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.WINGER, 0.13179)
                             .build())
-                    .put(Position.LWBTM, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LBTM, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.WINGER, 0.06684999999999999)
                             .build())
-                    .put(Position.LWBD, ImmutableMap.<Skill, Double>builder()
+                    .put(Position.LBD, ImmutableMap.<Skill, Double>builder()
                             .put(Skill.WINGER, 0.08595)
                             .build())
                     .build())
             .build();
 
-    private double getCoefficientByPositionAndZone(final Player player, final Position position, final ZoneMatch zone, final MatchDetail matchDetail) {
+
+    private double getCoefficientByPositionAndZone(final Player player, final Position position, final ZoneMatch zone, final MatchDetail matchDetail, final Formation formation) {
         double c;
         try {
             c = config.get(zone).get(position).entrySet().stream().mapToDouble(e -> this.getEffectiveSkill(player, e.getKey()) * e.getValue()).sum();
             if (player.getSpecialty() == Specialty.TECHNICAL && ((zone == ZoneMatch.RIGHT_ATTACK) || (zone == ZoneMatch.LEFT_ATTACK)) && ((position == Position.MFWD) || (position == Position.RFWD) || (position == Position.LFWD))) {
                 c += this.getEffectiveSkill(player, Skill.PASSING) * 0.0191;
             }
+            c *= this.adjustForCrowding(position.getRole().getRoleGroup(), formation);
         } catch (final Exception e) {
             c = 0;
         }
         //return round(this.applyCommonProps(c, zone, matchDetail));
         return this.applyCommonProps(c, zone, matchDetail);
+    }
+
+    private double adjustForCrowding(final RoleGroup roleGroup, final Formation formation) {
+        if (formation.getNumCD() == 2 && roleGroup == RoleGroup.CENTRAL_DEFENDER) {
+            return 0.95;
+        }
+        if (formation.getNumCD() == 3 && roleGroup == RoleGroup.CENTRAL_DEFENDER) {
+            return 0.90;
+        }
+        if (formation.getNumIM() == 2 && roleGroup == RoleGroup.INNER_MIDFIELD) {
+            return 0.90;
+        }
+        if (formation.getNumIM() == 3 && roleGroup == RoleGroup.INNER_MIDFIELD) {
+            return 0.80;
+        }
+        if (formation.getNumFW() == 2 && roleGroup == RoleGroup.FORWARD) {
+            return 0.94;
+        }
+        if (formation.getNumFW() == 3 && roleGroup == RoleGroup.FORWARD) {
+            return 0.865;
+        }
+        return 1.0;
     }
 
     private double applyCommonProps(final double inVal, final ZoneMatch zone, final MatchDetail matchDetail) {
@@ -751,8 +792,8 @@ public class PlayerRatingService {
         final double outlier = matchDetail.getStyleOfPlay() >= 0 ? offensive : defensive;
         retVal *= 1.0 + (Math.abs(matchDetail.getStyleOfPlay()) * 0.01) * (outlier - 1.0);
 
-        //retVal = Math.pow(retVal, 1.165);
-        //retVal += 0.75;
+        retVal = Math.pow(retVal, 1.165);
+        retVal += 0.75;
         return retVal;
     }
 

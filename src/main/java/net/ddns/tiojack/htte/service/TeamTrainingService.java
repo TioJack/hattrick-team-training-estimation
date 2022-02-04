@@ -1,89 +1,90 @@
 package net.ddns.tiojack.htte.service;
 
 import lombok.RequiredArgsConstructor;
-import net.ddns.tiojack.htte.model.MatchDetail;
+import net.ddns.tiojack.htte.model.DensityRatingCalculation;
+import net.ddns.tiojack.htte.model.FormationRating;
 import net.ddns.tiojack.htte.model.Player;
 import net.ddns.tiojack.htte.model.PlayerTrainingRQ;
-import net.ddns.tiojack.htte.model.Ratings;
-import net.ddns.tiojack.htte.model.SideMatch;
 import net.ddns.tiojack.htte.model.Skill;
-import net.ddns.tiojack.htte.model.Tactic;
-import net.ddns.tiojack.htte.model.TeamAttitude;
 import net.ddns.tiojack.htte.model.TeamTrainingRQ;
 import net.ddns.tiojack.htte.model.TeamTrainingRS;
 import net.ddns.tiojack.htte.model.Training;
 import net.ddns.tiojack.htte.model.TrainingStage;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
-import static net.ddns.tiojack.htte.model.TeamConfidence.WONDERFUL;
-import static net.ddns.tiojack.htte.model.TeamSpirit.WALKING_ON_CLOUDS;
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
 public class TeamTrainingService {
 
     private final PlayerTrainingService playerTrainingService;
-    private final PlayerRatingService playerRatingService;
+    private final FormationRatingService formationRatingService;
 
     public TeamTrainingRS getTeamTraining(final TeamTrainingRQ teamTrainingRQ) {
         final AtomicInteger week = new AtomicInteger(0);
         // <week,trainingStageId>
         final Map<Integer, Integer> weeks = new HashMap<>();
-        teamTrainingRQ.getTrainingStages().values().forEach(trainingStage ->
-                IntStream.range(0, trainingStage.getDuration()).forEach(
-                        stage -> weeks.put(week.incrementAndGet(), trainingStage.getTrainingStageId())
-                )
-        );
+        final List<Integer> weekEndsStage = new ArrayList<>();
+        teamTrainingRQ.getTrainingStages().values().forEach(trainingStage -> {
+            IntStream.range(0, trainingStage.getDuration()).forEach(
+                    stage -> weeks.put(week.incrementAndGet(), trainingStage.getTrainingStageId())
+            );
+            weekEndsStage.add(week.get());
+        });
 
-        final MatchDetail matchDetail = MatchDetail.builder()
-                .sideMatch(SideMatch.HOME)
-                .teamConfidence(WONDERFUL)
-                .styleOfPlay(0)
-                .tactic(Tactic.NORMAL)
-                .teamAttitude(TeamAttitude.PIN)
-                .teamSpirit(WALKING_ON_CLOUDS)
-                .teamSubSpirit(0.0)
-                .build();
+        List<Integer> weeksToCalculateRating = new ArrayList<>();
+        if (teamTrainingRQ.getDensityRatingCalculation() == DensityRatingCalculation.STAGE) {
+            weeksToCalculateRating = weekEndsStage;
+        }
+        if (teamTrainingRQ.getDensityRatingCalculation() == DensityRatingCalculation.SEASON) {
+            weeksToCalculateRating = IntStream.range(1, (weeks.size() / 16) + 1).mapToObj(w -> w * 16).collect(toList());
+        }
+        if (teamTrainingRQ.getDensityRatingCalculation() == DensityRatingCalculation.COMPLETE) {
+            weeksToCalculateRating = new ArrayList<>(weeks.keySet());
+        }
+        final List<Integer> wtcr = new ArrayList<>(weeksToCalculateRating);
 
         final Map<Integer, List<Player>> weekPlayers = new HashMap<>();
+        final Map<Integer, FormationRating> weekFormation = new HashMap<>();
+
         weeks.forEach((key, value) -> {
-            final List<Player> players = this.getPlayers(key, value, weekPlayers.getOrDefault(key - 1, emptyList()), teamTrainingRQ, matchDetail);
+            final List<Player> players = this.getPlayers(key, value, weekPlayers.getOrDefault(key - 1, emptyList()), teamTrainingRQ);
             weekPlayers.put(key, players);
-
-            final List<Ratings> collect = players.stream().flatMap(player -> player.getRatings().values().stream()).sorted(Comparator.comparingDouble(Ratings::getMidfield).reversed()).collect(Collectors.toList());
-
-            final int f = 1;
+            if (wtcr.contains(key)) {
+                weekFormation.put(key, this.formationRatingService.getRatings(players, teamTrainingRQ.getMatchDetail(), teamTrainingRQ.getBestFormationCriteria()));
+            }
         });
+
+        final FormationRating bestRating = weekFormation.values().stream().sorted(teamTrainingRQ.getBestFormationCriteria().getFormationRatingComparator()).collect(toList()).get(0);
+        final int bestWeek = weekFormation.entrySet().stream().filter(entry -> bestRating.equals(entry.getValue())).map(Map.Entry::getKey).collect(toList()).get(0);
 
         return TeamTrainingRS.builder()
                 .weekPlayers(weekPlayers)
+                .weekRatings(weekFormation)
+                .bestRating(bestRating)
+                .bestWeek(bestWeek)
                 .build();
     }
 
-    private List<Player> getPlayers(final int week, final int trainingStageId, final List<Player> previousWeekPlayers, final TeamTrainingRQ teamTrainingRQ, final MatchDetail matchDetail) {
+    private List<Player> getPlayers(final int week, final int trainingStageId, final List<Player> previousWeekPlayers, final TeamTrainingRQ teamTrainingRQ) {
         final TrainingStage trainingStage = this.getTrainingStage(teamTrainingRQ, trainingStageId);
         return Stream.concat(
                         teamTrainingRQ.getPlayers().values().stream().filter(player -> player.getInclusionWeek() == week).map(player -> this.applyWeekChanges(player, player.getDaysForNextTraining(), trainingStage)),
                         previousWeekPlayers.stream().map(player -> this.applyWeekChanges(player, 7, trainingStage)))
                 .map(player -> this.applyTraining(player, trainingStage, teamTrainingRQ.getStagePlayerTraining().get(trainingStageId).getOrDefault(player.getPlayerId(), Training.NO_TRAINING)))
-                .map(player -> this.calcRating(player, matchDetail))
                 .sorted(Comparator.comparingInt(Player::getPlayerId))
-                .collect(Collectors.toList());
-    }
-
-    private Player calcRating(final Player player, final MatchDetail matchDetail) {
-        player.setRatings(this.playerRatingService.getRatings(player, matchDetail));
-        return player;
+                .collect(toList());
     }
 
     private Player applyWeekChanges(final Player player, final int addDays, final TrainingStage trainingStage) {

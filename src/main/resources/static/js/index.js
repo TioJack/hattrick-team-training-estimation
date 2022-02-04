@@ -1,6 +1,7 @@
 const template_player = Handlebars.compile($("#template_player").html());
 const template_stage = Handlebars.compile($("#template_stage").html());
 const template_res_player = Handlebars.compile($("#template_res_player").html());
+const template_formation_rating = Handlebars.compile($("#template_formation_rating").html());
 
 let locale = {};
 let defaultLocale = {};
@@ -8,7 +9,32 @@ let playerIdSeed = 1;
 let players = [];
 let trainingStageIdSeed = 1;
 let trainingStages = [];
-let results = {};
+let teamTrainingRS = {};
+
+Handlebars.registerHelper('player_on_position', function (players, pos) {
+    const player = players.filter(pl => pl.position.startsWith(pos))[0];
+    if (player) {
+        const bh = (player.position).substr(pos.length);
+        const side = (player.position).substr(0, 1);
+        return player.playerId + convBH(bh, side);
+        //'◄ ►▼▲'
+    }
+    return '';
+});
+
+function convBH(bh, side) {
+    if (bh == 'O') return '▼';
+    if (bh == 'D') return '▲';
+    if (bh == 'TM') {
+        if (side == 'R') return '►';
+        return '◄';
+    }
+    if (bh == 'TW') {
+        if (side == 'R') return '◄';
+        return '►';
+    }
+    return '';
+};
 
 //trg = value in enum Training.java
 let slots = {
@@ -27,13 +53,13 @@ $(() => {
 
     $('#save').click(function () {
         const save = {
-            version: 1,
+            version: 2,
             players: players,
             trainingStages: trainingStages,
             playerTraining: $("[id^='cb_']:checked").map(function (i, e) {
                 return e.id
             }).toArray(),
-            results: results
+            teamTrainingRS: teamTrainingRS
         }
         const blob = new Blob([JSON.stringify(save, null, 2)], {type: "text/plain;charset=utf-8"});
         saveAs(blob, "htte_config_" + getDate() + ".json");
@@ -53,8 +79,8 @@ $(() => {
                 trainingStageIdSeed = Math.max(...trainingStages.map(trainingStage => parseInt(trainingStage.trainingStageId))) + 1;
                 refreshPlayerTraining();
                 load.playerTraining.forEach(pt => $("#" + pt).click());
-                results = load.results;
-                loadResults(results);
+                teamTrainingRS = load.teamTrainingRS;
+                loadResults(teamTrainingRS);
             }
         } catch (e) {
         }
@@ -81,7 +107,12 @@ $(() => {
         }).toArray().reduce(((r, c) => Object.assign(r, c)), {})
         ]));
 
+        const form_ratings = $('#form_ratings').serializeArray().reduce((o, kv) => ({...o, [kv.name]: parseInt(kv.value)}), {});
+        const form_matchDetail = $('#form_matchDetail').serializeArray().reduce((o, kv) => ({...o, [kv.name]: parseInt(kv.value)}), {});
+
         const teamTrainingRQ = {
+            ...form_ratings,
+            matchDetail: {...form_matchDetail},
             players: Object.fromEntries(new Map(players.map(player => [player.playerId, player]))),
             trainingStages: Object.fromEntries(new Map(trainingStages.map(trainingStage => [trainingStage.trainingStageId, trainingStage]))),
             stagePlayerTraining: stagePlayerTraining
@@ -94,10 +125,11 @@ $(() => {
             contentType: 'application/json',
             dataType: 'json',
             async: true,
-            success: function (teamTrainingRS) {
-                results = teamTrainingRS.weekPlayers;
-                loadResults(results);
-            }
+            success: function (response) {
+                teamTrainingRS = response;
+                loadResults(teamTrainingRS);
+            },
+            timeout: 300000
         });
     });
 
@@ -166,7 +198,8 @@ $(() => {
         loadLocale($('#language').val());
     });
 
-});
+})
+;
 
 function getDaysForNextTraining() {
     let friday = moment().day(5).startOf('day');
@@ -209,17 +242,19 @@ function loadDefaultLocale() {
     });
 }
 
-function loadResults(results) {
-    let weeks = Object.keys(results);
+function loadResults(teamTrainingRS) {
+    let weeks = Object.keys(teamTrainingRS.weekPlayers);
     let first = weeks[0];
     let last = weeks[weeks.length - 1];
     let html = "<input id='result_range' type='range' min='" + first + "' max='" + last + "' oninput=\"week.value=result_range.value\">";
     html += "Semana: <output id=\"week\" for=\"result_range\"></output>";
     $('#div_results_range').html(html);
+    addRating('#best_rating', 'Mejor calificación [ Semana: ' + teamTrainingRS.bestWeek + ' ]', teamTrainingRS.bestRating);
     $('#result_range').change(function (item) {
-        $('#div_results').html("");
+        $('#div_results_players').html("");
         const week = item.target.value;
-        results[week].forEach(player => addPlayerResult(player));
+        teamTrainingRS.weekPlayers[week].forEach(player => addPlayerResult(player));
+        addRating('#week_rating', 'Semana: ' + week, teamTrainingRS.weekRatings[week]);
     });
     $('#result_range').val(last);
     $('#week').val(last);
@@ -228,7 +263,14 @@ function loadResults(results) {
 
 function addPlayerResult(player) {
     const ini = players.filter(pl => pl.playerId === player.playerId)[0];
-    $('#div_results').append("<div class='res_player_top'>" + template_res_player(ini) + "<div class='res_player_sep'>==></div>" + template_res_player(player) + "</div>");
+    $('#div_results_players').append("<div class='res_player_top'>" + template_res_player(ini) + "<div class='res_player_sep'>==></div>" + template_res_player(player) + "</div>");
+}
+
+function addRating(id, title, formationRating) {
+    $(id).html("");
+    if (formationRating) {
+        $(id).html(template_formation_rating({...formationRating, title: title}));
+    }
 }
 
 function getDate() {

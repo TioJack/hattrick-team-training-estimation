@@ -28,7 +28,7 @@ public class LineupPlayer implements Serializable {
 
     @JsonIgnore
     public RatingConfigProp getRatingConfigProp() {
-        return RatingConfigProp.valueOf(Stream.of(this.role.getAbr(), this.behaviour.getAbr(), this.player.getSpecialty() == Specialty.TECHNICAL ? "tech" : null)
+        return RatingConfigProp.valueOf(Stream.of(this.role.getRoleGroup().getAbr(), this.behaviour.getAbr(), this.role.getRoleGroup() == RoleGroup.FORWARD && this.player.getSpecialty() == Specialty.TECHNICAL ? "tech" : null)
                 .filter(Objects::nonNull)
                 .collect(Collectors.joining("_")));
     }

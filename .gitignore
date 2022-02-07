@@ -53,5 +53,5 @@ node_modules/
 node/
 package-lock.json
 /src/main/angular/.vscode/
-/src/main/resources/static/
+/src/main/resources/static/a/
 /src/main/angular/.angular/

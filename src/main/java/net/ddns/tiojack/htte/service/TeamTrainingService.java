@@ -66,6 +66,12 @@ public class TeamTrainingService {
             }
         });
 
+        if (teamTrainingRQ.getDensityRatingCalculation() == DensityRatingCalculation.WITHOUT) {
+            return TeamTrainingRS.builder()
+                    .weekPlayers(weekPlayers)
+                    .build();
+        }
+        
         final FormationRating bestRating = weekFormation.values().stream().sorted(teamTrainingRQ.getBestFormationCriteria().getFormationRatingComparator()).collect(toList()).get(0);
         final int bestWeek = weekFormation.entrySet().stream().filter(entry -> bestRating.equals(entry.getValue())).map(Map.Entry::getKey).collect(toList()).get(0);
 

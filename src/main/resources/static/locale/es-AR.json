@@ -40,5 +40,7 @@
     "head_specialist": "Cabeceador",
     "resilient": "Resiliente",
     "support": "Solidario"
-  }
+  },
+  "save": "Guardar",
+  "load": "Cargar"
 }

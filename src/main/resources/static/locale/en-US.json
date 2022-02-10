@@ -40,5 +40,7 @@
     "head_specialist": "Head",
     "resilient": "Resilient",
     "support": "Support"
-  }
+  },
+  "save": "Save",
+  "load": "Load"
 }

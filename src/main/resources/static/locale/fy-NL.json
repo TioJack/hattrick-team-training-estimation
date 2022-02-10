@@ -1,20 +1,22 @@
 {
-  "playmaking": "Posysjespul",
-  "winger": "Wjukspul",
-  "scoring": "Skoaren",
-  "passing": "Oerspyljen",
-  "defending": "Ferdigenjen",
-  "keeper": "Doelferdigenjen",
-  "set_pieces": "Dea Spul",
-  "stamina": "Kondysje",
-  "specialties": {
-    "none": "Gjin spesjaliteit",
-    "technical": "Technysk",
-    "quick": "Fluch",
-    "powerful": "Krêftich",
-    "unpredictable": "Unfoarspelber",
-    "head_specialist": "Koppe",
-    "resilient": "Fearkrêftich",
-    "support": "Stypjend"
-  }
+  "playmaking" : "Posysjespul",
+  "winger" : "Wjukspul",
+  "scoring" : "Skoaren",
+  "passing" : "Oerspyljen",
+  "defending" : "Ferdigenjen",
+  "keeper" : "Doelferdigenjen",
+  "set_pieces" : "Dea Spul",
+  "stamina" : "Kondysje",
+  "specialties" : {
+    "none" : "Gjin spesjaliteit",
+    "technical" : "Technysk",
+    "quick" : "Fluch",
+    "powerful" : "Krêftich",
+    "unpredictable" : "Unfoarspelber",
+    "head_specialist" : "Koppe",
+    "resilient" : "Fearkrêftich",
+    "support" : "Stypjend"
+  },
+  "save" : "Opslaan",
+  "load" : "Ynlade"
 }

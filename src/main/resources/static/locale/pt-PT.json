@@ -40,5 +40,7 @@
     "head_specialist": "Jogo aéreo",
     "resilient": "Resiliente",
     "support": "Jogador de apoio"
-  }
+  },
+  "save": "Salvar",
+  "load": "Importar"
 }

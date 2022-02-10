@@ -1,22 +1,24 @@
 {
-  "playmaking": "Spillmaacher",
-  "winger": "Bande",
-  "scoring": "Buteur",
-  "passing": "Passpill",
-  "defending": "Verteidegung",
-  "keeper": "Goalkeeper",
-  "set_pieces": "Strofstéiss",
-  "stamina": "Konditioun",
-  "player": "Spiller",
-  "player_abbr": "Spiller",
-  "specialties": {
-    "none": "Keng Spezialfäegkeet",
-    "technical": "Dribbler",
-    "quick": "séier",
-    "powerful": "duerchsetzungsstaark",
-    "unpredictable": "onberechenbar",
-    "head_specialist": "kappballstaark",
-    "resilient": "robust",
-    "support": "Equipespiller"
-  }
+  "playmaking" : "Spillmaacher",
+  "winger" : "Bande",
+  "scoring" : "Buteur",
+  "passing" : "Passpill",
+  "defending" : "Verteidegung",
+  "keeper" : "Goalkeeper",
+  "set_pieces" : "Strofstéiss",
+  "stamina" : "Konditioun",
+  "player" : "Spiller",
+  "player_abbr" : "Spiller",
+  "specialties" : {
+    "none" : "Keng Spezialfäegkeet",
+    "technical" : "Dribbler",
+    "quick" : "séier",
+    "powerful" : "duerchsetzungsstaark",
+    "unpredictable" : "onberechenbar",
+    "head_specialist" : "kappballstaark",
+    "resilient" : "robust",
+    "support" : "Equipespiller"
+  },
+  "save" : "Späicheren",
+  "load" : "Lueden"
 }

@@ -40,5 +40,7 @@
     "head_specialist": "Cabeceador",
     "resilient": "Resistente",
     "support": "Conductor"
-  }
+  },
+  "save": "Guardar",
+  "load": "Cargar"
 }

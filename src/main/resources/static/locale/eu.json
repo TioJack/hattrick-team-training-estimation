@@ -1,12 +1,12 @@
 {
-  "specialties": {
-    "none": "Berezitasunik ez",
-    "technical": "Teknikoa",
-    "quick": "Azkarra",
-    "powerful": "Bortitza",
-    "unpredictable": "Ustekabekoa",
-    "head_specialist": "Buruz abila",
-    "resilient": "Elastikoa",
-    "support": "Eraginkorra"
+  "specialties" : {
+    "none" : "Berezitasunik ez",
+    "technical" : "Teknikoa",
+    "quick" : "Azkarra",
+    "powerful" : "Bortitza",
+    "unpredictable" : "Ustekabekoa",
+    "head_specialist" : "Buruz abila",
+    "resilient" : "Elastikoa",
+    "support" : "Eraginkorra"
   }
 }

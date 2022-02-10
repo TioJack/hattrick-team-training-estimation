@@ -1,22 +1,24 @@
 {
-  "playmaking": "Organizim",
-  "winger": "Në Krah",
-  "scoring": "Shënim",
-  "passing": "Pasim",
-  "defending": "Mbrojtje",
-  "keeper": "Portier",
-  "set_pieces": "Goditje_Standarte",
-  "stamina": "Rrezistenca",
-  "player": "Lojtari",
-  "player_abbr": "Lojtari",
-  "specialties": {
-    "none": "Pa veçori",
-    "technical": "Teknik",
-    "quick": "I shpejtë",
-    "powerful": "I fuqishëm",
-    "unpredictable": "I paparashikueshëm",
-    "head_specialist": "Me Kokë",
-    "resilient": "Ripërtëritës",
-    "support": "Mbështetës"
-  }
+  "playmaking" : "Organizim",
+  "winger" : "Në Krah",
+  "scoring" : "Shënim",
+  "passing" : "Pasim",
+  "defending" : "Mbrojtje",
+  "keeper" : "Portier",
+  "set_pieces" : "Goditje_Standarte",
+  "stamina" : "Rrezistenca",
+  "player" : "Lojtari",
+  "player_abbr" : "Lojtari",
+  "specialties" : {
+    "none" : "Pa veçori",
+    "technical" : "Teknik",
+    "quick" : "I shpejtë",
+    "powerful" : "I fuqishëm",
+    "unpredictable" : "I paparashikueshëm",
+    "head_specialist" : "Me Kokë",
+    "resilient" : "Ripërtëritës",
+    "support" : "Mbështetës"
+  },
+  "save" : "Ruaj",
+  "load" : "Ngarko"
 }

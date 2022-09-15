@@ -1,4 +1,16 @@
 # hattrick-team-training-estimation
 
 SDK:
-https://cdn.azul.com/zulu-embedded/bin/zulu11.52.13-ca-jdk11.0.13-linux_aarch32hf.tar.gz
+Amazon Corretto 18
+https://docs.aws.amazon.com/corretto/latest/corretto-18-ug/downloads-list.html
+
+Docker:
+
+`docker run -it \
+--restart=unless-stopped \
+--privileged \
+--name htte \
+-v /home/atom/htte:/home:Z \
+-p 8090:8080 \
+amazoncorretto:18 \
+/bin/bash -c '/usr/bin/java -jar /home/htte.jar'`

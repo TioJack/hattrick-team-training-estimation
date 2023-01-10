@@ -42,5 +42,23 @@
     "support": "Support"
   },
   "save": "Save",
-  "load": "Load"
+  "load": "Load",
+  "information": {
+    "information": "information",
+    "description": "HTTE is short for <strong>H</strong>attrick <strong>T</strong>eam <strong>T</strong>raining <strong>E</strong>stimation, is a tool, similar to a player's training calculator, but that allows you to estimate the training of the entire team, and also gives you a simulation of the qualifications that you could get with that already trained team."
+  },
+  "players": {
+    "header": "1) Players"
+  },
+  "stages": {
+    "header": "2) Stages"
+  },
+  "training": {
+    "header": "3) Training"
+  },
+  "results": {
+    "header": "4) Calculate"
+  },
+  "created-by": "Created by ",
+  "name": "name"
 }

@@ -1,0 +1,20 @@
+<div class="accordion-item">
+  <h2 class="accordion-header" id="htte-info-header">
+    <button class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#htte-info"
+            aria-expanded="true"
+            aria-controls="htte-info">
+      <i class="bi bi-info-circle-fill pe-2"></i>
+      {{ 'information.information' | translate }}
+    </button>
+  </h2>
+  <div id="htte-info"
+       class="accordion-collapse collapse"
+       aria-labelledby="htte-info-header">
+    <div class="accordion-body">
+      <p [innerHtml]="'information.description' | translate"></p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="accordion-item">
+  <h2 class="accordion-header" id="players-header">
+    <button class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#players-body"
+            aria-expanded="false"
+            aria-controls="players-body">
+      {{ "players.header" | translate }}
+    </button>
+  </h2>
+  <div id="players-body" class="accordion-collapse collapse" aria-labelledby="players-header">
+    <div class="accordion-body">
+      <button type="button" class="btn btn-dark btn-sm" (click)="addPlayer()">
+        Add Player
+      </button>
+      <button type="button" class="btn btn-dark btn-sm ms-1" (click)="viewPlayers()">
+        Import Players from FoxTrick
+      </button>
+      <div class="row row-cols-auto">
+        <div class="col"
+             *ngFor="let playerFormGroup of this.playersFormGroup.controls['players'].value.controls">
+          <app-player [playerFormGroup]="playerFormGroup"></app-player>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

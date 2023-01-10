@@ -14,7 +14,7 @@ public class TeamTrainingRQ implements Serializable {
 
     private static final long serialVersionUID = 5331342158872356541L;
 
-    //<playerId,Player>
+    //<playerId,IPlayer>
     Map<Integer, Player> players;
 
     //<trainingStageId,TrainingStage>

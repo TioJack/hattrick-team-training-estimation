@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup} from "@angular/forms";
-import {PlayerFormGroup} from "../../../model/PlayerFormGroup";
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { PlayerFormGroup } from '../../../model/PlayerFormGroup';
 
 @Component({
   selector: 'app-player',
@@ -8,4 +8,8 @@ import {PlayerFormGroup} from "../../../model/PlayerFormGroup";
 })
 export class PlayerComponent {
   @Input() playerFormGroup: FormGroup<PlayerFormGroup>;
+
+  onChangeEvent(event: any) {
+    this.playerFormGroup.patchValue({ 'age': event.target.value });
+  }
 }

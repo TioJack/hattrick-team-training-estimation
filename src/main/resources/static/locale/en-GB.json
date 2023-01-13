@@ -60,5 +60,9 @@
     "header": "4) Calculate"
   },
   "created-by": "Created by ",
-  "name": "name"
+  "playerId": "playerId",
+  "name": "name",
+  "label": "label",
+  "age_years": "age (years)",
+  "age_days": "age (days)"
 }

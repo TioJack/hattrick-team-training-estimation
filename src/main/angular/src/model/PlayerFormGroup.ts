@@ -1,5 +1,5 @@
-import {Player} from "./Player";
-import {AbstractControl, FormControl, Validators} from "@angular/forms";
+import { Player } from './Player';
+import { FormControl } from '@angular/forms';
 
 
 export class PlayerFormGroup {
@@ -29,8 +29,8 @@ export class PlayerFormGroup {
     this.playerId = new FormControl(player.playerId);
     this.name = new FormControl(player.name);
     this.label = new FormControl(player.label);
-    this.age = new FormControl(player.age, Validators.max(37));
-    this.days = new FormControl(player.days, Validators.max(111));
+    this.age = new FormControl(player.age);
+    this.days = new FormControl(player.days);
     this.form = new FormControl(player.form);
     this.stamina = new FormControl(player.stamina);
     this.leadership = new FormControl(player.leadership);

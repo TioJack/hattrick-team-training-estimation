@@ -1,87 +1,99 @@
-<div [formGroup]='playerFormGroup' class='container m-1 border border-dark'>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <div class='col-2'><input formControlName='playerId' type='text'></div>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>{{ "name" | translate | titlecase }}:</div>
-    <input class='col-2' formControlName='name' type='text'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='label' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>Age (years):</div>
-    <div class='col'><input type='range'></div>
-    <div class='col'><input formControlName='age' type='text' class='form-control'></div>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='days' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='form' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='stamina' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='leadership' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='experience' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='loyalty' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='motherClubBonus' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='specialty' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='keeper' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='defender' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='playmaker' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='winger' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='passing' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='scorer' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='setPieces' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='inclusionWeek' type='text' class='col'>
-  </div>
-  <div class='row row-cols-3'>
-    <div class='col'>PlayerID:</div>
-    <input formControlName='daysForNextTraining' type='text' class='col'>
-  </div>
+<div [formGroup]='playerFormGroup' class='container-sm m-1 border border-dark form-control' style='width: 360px'>
+  <app-number [label]='"playerId"' [controlName]='"playerId"'></app-number>
+  <app-text [label]='"name"' [controlName]='"name"'></app-text>
+  <app-text [label]='"label"' [controlName]='"label"'></app-text>
+  <app-slider [label]='"age_years"' [controlName]='"age"' [min]='17' [max]='35'></app-slider>
+  <app-slider [label]='"age_days"' [controlName]='"days"' [min]='0' [max]='111'></app-slider>
+
+
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='form' type='text' class='form-text w175'-->
+  <!--    ></div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='stamina' type='text' class='form-text w175'-->
+  <!--    ></div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='leadership' type='text' class='form-text w175'-->
+  <!--    >-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='experience' type='text' class='form-text w175'-->
+  <!--    >-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='loyalty' type='text' class='form-text w175'-->
+  <!--    ></div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='motherClubBonus' type='text'-->
+  <!--                            class='form-text w175'>-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='specialty' type='text' class='form-text w175'-->
+  <!--    >-->
+  <app-skill [label]='"keeper"' [controlName]='"keeper"' [max]='25'></app-skill>
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='keeper' type='text' class='form-text w175'-->
+  <!--    ></div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='defender' type='text' class='form-text w175'-->
+  <!--    >-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='playmaker' type='text' class='form-text w175'-->
+  <!--    >-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='winger' type='text' class='form-text w175'-->
+  <!--    ></div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='passing' type='text' class='form-text w175'-->
+  <!--    ></div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='scorer' type='text' class='form-text w175'-->
+  <!--    ></div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='setPieces' type='text' class='form-text w175'-->
+  <!--    >-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='inclusionWeek' type='text' class='form-text w175'-->
+  <!--    >-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--  <div class='row'>-->
+  <!--    <div class='col'>PlayerID:</div>-->
+  <!--    <div class='col'><input formControlName='daysForNextTraining' type='text' class='form-text w175'-->
+  <!--    >-->
+  <!--    </div>-->
+  <!--  </div>-->
 </div>

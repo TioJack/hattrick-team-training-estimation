@@ -14,3 +14,10 @@ Docker:
 -p 8090:8080 \
 amazoncorretto:18 \
 /bin/bash -c '/usr/bin/java -jar /home/htte.jar'`
+
+Create Component:
+ng g c -s --skip-tests components/player
+
+Start Angular:
+nvm use 14.20.1
+npm start

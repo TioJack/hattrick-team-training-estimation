@@ -1,4 +1,4 @@
-import {IPlayer} from "./IPlayer";
+import { IPlayer } from './IPlayer';
 
 export class Player implements IPlayer {
   playerId: number;
@@ -27,7 +27,7 @@ export class Player implements IPlayer {
     this.playerId = playerId;
     this.name = '';
     this.label = '';
-    this.age = 17;
+    this.age = 27;
     this.days = 0;
     this.form = 0;
     this.stamina = 0;

@@ -1,27 +1,26 @@
-import {Injectable, NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import { Injectable, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {NavbarComponent} from './components/navbar/navbar.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
-import {
-  MissingTranslationHandler,
-  MissingTranslationHandlerParams,
-  TranslateLoader,
-  TranslateModule, TranslateService
-} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {TranslateComponent} from './components/translate/translate.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {PlayersComponent} from './components/players/players.component';
-import {StagesComponent} from './components/stages/stages.component';
-import {TrainingComponent} from './components/training/training.component';
-import {ResultsComponent} from './components/results/results.component';
-import {HtteInfoComponent} from './components/htte-info/htte-info.component';
-import {FooterComponent} from './components/footer/footer.component';
+import { MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateComponent } from './components/translate/translate.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PlayersComponent } from './components/players/players.component';
+import { StagesComponent } from './components/stages/stages.component';
+import { TrainingComponent } from './components/training/training.component';
+import { ResultsComponent } from './components/results/results.component';
+import { HtteInfoComponent } from './components/htte-info/htte-info.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { PlayerComponent } from './components/player/player.component';
+import { TextComponent } from './components/player-form-components/text/text.component';
+import { NumberComponent } from './components/player-form-components/number/number.component';
+import { SliderComponent } from './components/player-form-components/slider/slider.component';
+import { SkillComponent } from './components/player-form-components/skill/skill.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, '/locale/', '.json');
@@ -46,7 +45,11 @@ export class MyMissingTranslationHandler implements MissingTranslationHandler {
     ResultsComponent,
     HtteInfoComponent,
     FooterComponent,
-    PlayerComponent
+    PlayerComponent,
+    TextComponent,
+    NumberComponent,
+    SliderComponent,
+    SkillComponent
   ],
   imports: [
     BrowserModule,

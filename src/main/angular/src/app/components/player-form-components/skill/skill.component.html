@@ -1,0 +1,18 @@
+<div class='row align-items-baseline'>
+  <div class='col-4 text-nowrap'>{{ label | translate | titlecase }}:</div>
+  <div class='col-4'>
+    combo
+  </div>
+  <div class='col-2'>
+    <input type='range'
+           class='form-range w-100 align-bottom'
+           min='0.00'
+           max='0.99'
+           step='0.01'
+           [value]='this.fg.controls[controlName].value'
+           (input)='onChangeEvent($event)'>
+  </div>
+  <div class='col-2 text-end'>
+    <input [formControlName]='controlName' type='text' class='form-text w-100'>
+  </div>
+</div>

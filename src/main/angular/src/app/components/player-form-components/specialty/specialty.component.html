@@ -1,0 +1,11 @@
+<div class='row align-items-baseline'>
+  <div class='col-3 text-nowrap text-truncate'>{{ label | translate | titlecase }}:</div>
+  <div class='col-9'>
+    <select (change)='onChangeEvent($event)' class='w-100'>
+      <option *ngFor='let specialty of specialties' [value]='specialty' [selected]='getValue() === specialty'>
+        {{ "specialties." + specialty | translate }}
+      </option>
+    </select>
+  </div>
+  <input [formControlName]='controlName' type='hidden'>
+</div>

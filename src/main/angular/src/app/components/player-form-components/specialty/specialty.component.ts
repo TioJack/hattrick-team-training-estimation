@@ -1,18 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 
 @Component({
-  selector: 'app-slider',
-  templateUrl: './slider.component.html',
+  selector: 'app-specialty',
+  templateUrl: './specialty.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }]
 })
-export class SliderComponent implements OnInit {
+export class SpecialtyComponent {
   @Input() label: string;
-  @Input() labelSize: number = 3;
   @Input() controlName: string;
-  @Input() min: number;
-  @Input() max: number;
   fg: FormGroup;
+  specialties: Array<number> = [0, 1, 2, 3, 4, 5, 6, 8];
 
   constructor(private controlContainer: ControlContainer) {
   }
@@ -22,6 +20,11 @@ export class SliderComponent implements OnInit {
   }
 
   onChangeEvent(event: any) {
-    this.fg.patchValue({ [this.controlName]: event.target.value });
+    this.fg.patchValue({ [this.controlName]: +event.target.value });
   }
+
+  getValue() {
+    return this.fg.controls[this.controlName].value;
+  }
+
 }

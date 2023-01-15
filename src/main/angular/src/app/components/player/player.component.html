@@ -1,99 +1,23 @@
-<div [formGroup]='playerFormGroup' class='container-sm m-1 border border-dark form-control' style='width: 360px'>
+<div [formGroup]='playerFormGroup' class='container-sm m-1 border border-dark form-control' style='width: 370px'>
   <app-number [label]='"playerId"' [controlName]='"playerId"'></app-number>
   <app-text [label]='"name"' [controlName]='"name"'></app-text>
   <app-text [label]='"label"' [controlName]='"label"'></app-text>
   <app-slider [label]='"age_years"' [controlName]='"age"' [min]='17' [max]='35'></app-slider>
   <app-slider [label]='"age_days"' [controlName]='"days"' [min]='0' [max]='111'></app-slider>
-
-
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='form' type='text' class='form-text w175'-->
-  <!--    ></div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='stamina' type='text' class='form-text w175'-->
-  <!--    ></div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='leadership' type='text' class='form-text w175'-->
-  <!--    >-->
-  <!--    </div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='experience' type='text' class='form-text w175'-->
-  <!--    >-->
-  <!--    </div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='loyalty' type='text' class='form-text w175'-->
-  <!--    ></div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='motherClubBonus' type='text'-->
-  <!--                            class='form-text w175'>-->
-  <!--    </div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='specialty' type='text' class='form-text w175'-->
-  <!--    >-->
-  <app-skill [label]='"keeper"' [controlName]='"keeper"' [max]='25'></app-skill>
-  <!--    </div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='keeper' type='text' class='form-text w175'-->
-  <!--    ></div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='defender' type='text' class='form-text w175'-->
-  <!--    >-->
-  <!--    </div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='playmaker' type='text' class='form-text w175'-->
-  <!--    >-->
-  <!--    </div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='winger' type='text' class='form-text w175'-->
-  <!--    ></div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='passing' type='text' class='form-text w175'-->
-  <!--    ></div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='scorer' type='text' class='form-text w175'-->
-  <!--    ></div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='setPieces' type='text' class='form-text w175'-->
-  <!--    >-->
-  <!--    </div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='inclusionWeek' type='text' class='form-text w175'-->
-  <!--    >-->
-  <!--    </div>-->
-  <!--  </div>-->
-  <!--  <div class='row'>-->
-  <!--    <div class='col'>PlayerID:</div>-->
-  <!--    <div class='col'><input formControlName='daysForNextTraining' type='text' class='form-text w175'-->
-  <!--    >-->
-  <!--    </div>-->
-  <!--  </div>-->
+  <app-skill [label]='"form"' [controlName]='"form"' [max]='8'></app-skill>
+  <app-skill [label]='"stamina"' [controlName]='"stamina"' [max]='8'></app-skill>
+  <app-skill [label]='"leadership"' [controlName]='"leadership"' [max]='7'></app-skill>
+  <app-skill [label]='"experience"' [controlName]='"experience"' [max]='20'></app-skill>
+  <app-skill [label]='"loyalty"' [controlName]='"loyalty"' [max]='20'></app-skill>
+  <app-check [label]='"motherClubBonus"' [controlName]='"motherClubBonus"'></app-check>
+  <app-specialty [label]='"specialty"' [controlName]='"specialty"'></app-specialty>
+  <app-skill [label]='"keeper"' [controlName]='"keeper"' [max]='20'></app-skill>
+  <app-skill [label]='"defending"' [controlName]='"defending"' [max]='20'></app-skill>
+  <app-skill [label]='"playmaking"' [controlName]='"playmaking"' [max]='20'></app-skill>
+  <app-skill [label]='"winger"' [controlName]='"winger"' [max]='20'></app-skill>
+  <app-skill [label]='"passing"' [controlName]='"passing"' [max]='20'></app-skill>
+  <app-skill [label]='"scoring"' [controlName]='"scoring"' [max]='20'></app-skill>
+  <app-skill [label]='"setPieces"' [controlName]='"setPieces"' [max]='20'></app-skill>
+  <app-slider [label]='"daysForNextTraining"' [labelSize]='6' [controlName]='"daysForNextTraining"' [min]='0' [max]='6'></app-slider>
+  <app-slider [label]='"inclusionWeek"' [labelSize]='4' [controlName]='"inclusionWeek"' [min]='1' [max]='320'></app-slider>
 </div>

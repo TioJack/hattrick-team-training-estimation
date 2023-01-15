@@ -5041,7 +5041,7 @@ textarea.form-control-lg {
 }
 
 .accordion-body {
-  padding: 1rem 1.25rem;
+  padding: 0.75rem 0.75rem;
 }
 
 .accordion-flush .accordion-collapse {
@@ -7055,7 +7055,6 @@ textarea.form-control-lg {
 
 .text-truncate {
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 

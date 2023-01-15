@@ -16,14 +16,14 @@ export class PlayerFormGroup {
   motherClubBonus: FormControl;
   specialty: FormControl;
   keeper: FormControl;
-  defender: FormControl;
-  playmaker: FormControl;
+  defending: FormControl;
+  playmaking: FormControl;
   winger: FormControl;
   passing: FormControl;
-  scorer: FormControl;
+  scoring: FormControl;
   setPieces: FormControl;
-  inclusionWeek: FormControl;
   daysForNextTraining: FormControl;
+  inclusionWeek: FormControl;
 
   constructor(player: Player) {
     this.playerId = new FormControl(player.playerId);
@@ -39,13 +39,13 @@ export class PlayerFormGroup {
     this.motherClubBonus = new FormControl(player.motherClubBonus);
     this.specialty = new FormControl(player.specialty);
     this.keeper = new FormControl(player.keeper);
-    this.defender = new FormControl(player.defender);
-    this.playmaker = new FormControl(player.playmaker);
+    this.defending = new FormControl(player.defending);
+    this.playmaking = new FormControl(player.playmaking);
     this.winger = new FormControl(player.winger);
     this.passing = new FormControl(player.passing);
-    this.scorer = new FormControl(player.scorer);
+    this.scoring = new FormControl(player.scoring);
     this.setPieces = new FormControl(player.setPieces);
-    this.inclusionWeek = new FormControl(player.inclusionWeek);
     this.daysForNextTraining = new FormControl(player.daysForNextTraining);
+    this.inclusionWeek = new FormControl(player.inclusionWeek);
   }
 }

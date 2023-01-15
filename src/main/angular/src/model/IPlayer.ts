@@ -12,12 +12,12 @@ export interface IPlayer {
   motherClubBonus: number;
   specialty: number;
   keeper: number;
-  defender: number;
-  playmaker: number;
+  defending: number;
+  playmaking: number;
   winger: number;
   passing: number;
-  scorer: number;
+  scoring: number;
   setPieces: number;
-  inclusionWeek: number;
   daysForNextTraining: number;
+  inclusionWeek: number;
 }

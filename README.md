@@ -20,4 +20,4 @@ ng g c -s --skip-tests components/player
 
 Start Angular:
 nvm use 14.20.1
-npm start
+ng serve --host 0.0.0.0 | npm start

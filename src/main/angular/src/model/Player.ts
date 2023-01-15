@@ -14,11 +14,11 @@ export class Player implements IPlayer {
   motherClubBonus: number;
   specialty: number;
   keeper: number;
-  defender: number;
-  playmaker: number;
+  defending: number;
+  playmaking: number;
   winger: number;
   passing: number;
-  scorer: number;
+  scoring: number;
   setPieces: number;
   inclusionWeek: number;
   daysForNextTraining: number;
@@ -27,7 +27,7 @@ export class Player implements IPlayer {
     this.playerId = playerId;
     this.name = '';
     this.label = '';
-    this.age = 27;
+    this.age = 17;
     this.days = 0;
     this.form = 0;
     this.stamina = 0;
@@ -37,13 +37,13 @@ export class Player implements IPlayer {
     this.motherClubBonus = 0;
     this.specialty = 0;
     this.keeper = 0;
-    this.defender = 0;
-    this.playmaker = 0;
+    this.defending = 0;
+    this.playmaking = 0;
     this.winger = 0;
     this.passing = 0;
-    this.scorer = 0;
+    this.scoring = 0;
     this.setPieces = 0;
-    this.inclusionWeek = 0;
     this.daysForNextTraining = 0;
+    this.inclusionWeek = 1;
   }
 }

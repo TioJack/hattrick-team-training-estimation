@@ -21,6 +21,8 @@ import { TextComponent } from './components/player-form-components/text/text.com
 import { NumberComponent } from './components/player-form-components/number/number.component';
 import { SliderComponent } from './components/player-form-components/slider/slider.component';
 import { SkillComponent } from './components/player-form-components/skill/skill.component';
+import { CheckComponent } from './components/player-form-components/check/check.component';
+import { SpecialtyComponent } from './components/player-form-components/specialty/specialty.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, '/locale/', '.json');
@@ -49,7 +51,9 @@ export class MyMissingTranslationHandler implements MissingTranslationHandler {
     TextComponent,
     NumberComponent,
     SliderComponent,
-    SkillComponent
+    SkillComponent,
+    CheckComponent,
+    SpecialtyComponent
   ],
   imports: [
     BrowserModule,

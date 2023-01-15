@@ -1,6 +1,6 @@
 <div class='row align-items-baseline'>
-  <div class='col-4 text-nowrap'>{{ label | translate | titlecase }}:</div>
-  <div class='col-6'>
+  <div class='col-{{ labelSize }} text-nowrap text-truncate'>{{ label | translate | titlecase }}:</div>
+  <div class='col-{{ 10-labelSize }}'>
     <input type='range'
            class='form-range w-100 align-bottom'
            [min]='min'

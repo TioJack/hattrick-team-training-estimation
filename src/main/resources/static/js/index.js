@@ -119,7 +119,7 @@ $(() => {
         };
 
         $.ajax({
-            url: '/teamTraining',
+            url: '/htte/teamTraining',
             type: 'POST',
             data: JSON.stringify(teamTrainingRQ),
             contentType: 'application/json',

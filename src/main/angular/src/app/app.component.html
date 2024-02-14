@@ -1,8 +1,8 @@
-<app-navbar></app-navbar>
+<app-navbar [form]='this.form'></app-navbar>
 <div>
-  <div class="accordion" id="accordion">
+  <div class='accordion' id='accordion'>
     <app-htte-info></app-htte-info>
-    <app-players></app-players>
+    <app-players [form]='this.form'></app-players>
     <app-stages></app-stages>
     <app-training></app-training>
     <app-results></app-results>
